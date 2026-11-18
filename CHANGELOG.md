@@ -3,6 +3,11 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-18
+- The dashed cooking branch is now a short fork with wider prongs and its own isolated stop: into
+  the open space under the side quest stops on the hero map, and down the gap beside the side
+  quests list.
+
+## 2026-11-18
 - A dashed branch of the side quests line now leads to Max's cooking account on Instagram, from
   Stockholm on the hero map and from the top of the side quests list.
 

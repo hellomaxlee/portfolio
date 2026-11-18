@@ -101,22 +101,24 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       aria-labelledby="quests-h"
       style="--line:var(--line-quest)"
     >
-      <div>
+      <div class="q-head">
         <h2 id="quests-h"><span class="swatch"></span>Side quests</h2>
         <p class="note">
           I like giving trips rules and goals. Most of them involve public transit. As I've gotten
           older I also take the occasional one with no plan at all, which I hear is how a lot of
           people travel.
         </p>
-      </div>
-      <div class="q-wrap">
-        <p class="q-spur">
-          <svg viewBox="0 0 56 22" aria-hidden="true">
-            <path d="M0 22V16Q0 12 2.8 9.2L9.2 2.8Q12 0 16 0H56" />
+        <svg class="q-fork q-fork-side" viewBox="0 0 40 56" aria-hidden="true">
+          <path d="M40 0V6Q40 10 37.2 12.8L2.8 47.2Q0 50 0 54V56" />
+        </svg>
+        <p class="q-side">
+          <svg class="q-fork q-fork-top" viewBox="0 0 56 34" aria-hidden="true">
+            <path d="M0 34V16Q0 12 2.8 9.2L9.2 2.8Q12 0 16 0H56" />
           </svg>
           <a href={cooking} rel="noopener">Cooking on Instagram</a>
         </p>
-        <ol class="quests">
+      </div>
+      <ol class="quests">
         {
           quests.map((quest, i) => (
             <li id={quest.id}>
@@ -141,8 +143,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             </li>
           ))
         }
-        </ol>
-      </div>
+      </ol>
     </section>
   </main>
 
@@ -335,54 +336,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     padding-top: calc(2 * var(--shift));
   }
 
-  .q-wrap {
-    --near: 0.375rem;
-    --spur-h: 2rem;
-  }
-
   @media (max-width: 56rem) {
-    .q-wrap {
+    .quests {
       margin-top: var(--space-5);
     }
-  }
-
-  /*
-    A dashed branch leaves the top of the quest line for a stop that is off this page.
-    It is the same line, thinner, and it ends in a smaller station.
-  */
-  .q-spur {
-    position: relative;
-    height: var(--spur-h);
-    padding-left: calc(var(--near) + 3.5rem + 0.875rem);
-    color: var(--muted);
-    font-size: var(--step--1);
-    line-height: 1.25rem;
-  }
-
-  .q-spur svg {
-    position: absolute;
-    left: var(--near);
-    top: 0.625rem;
-    width: 3.5rem;
-    height: 1.375rem;
-    overflow: visible;
-    fill: none;
-    stroke: var(--line);
-    stroke-width: 3px;
-    stroke-dasharray: 5 4;
-  }
-
-  .q-spur::before {
-    content: '';
-    position: absolute;
-    left: calc(var(--near) + 3.5rem - 0.3125rem);
-    top: 0.3125rem;
-    width: 0.625rem;
-    height: 0.625rem;
-    border-radius: 50%;
-    border: 2px solid var(--ink);
-    background: var(--bg);
-    z-index: 1;
   }
 
   @media (min-width: 40rem) {
@@ -392,10 +349,95 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     }
   }
 
-  /* Beside the heading, the spur and lead-in rise above the list so the first title stays level with it. */
+  /* Beside the heading, the lead-in rises above the list so the first title stays level with it. */
   @media (min-width: 56rem) {
-    .q-wrap {
-      margin-top: calc(-2 * var(--space-5) - var(--spur-h));
+    .quests {
+      margin-top: calc(-2 * var(--shift));
+    }
+  }
+
+  /*
+    A short dashed fork leaves the top of the quest line for a stop that is off this page. Beside
+    the heading it drops down the gap between the columns; stacked, it sits above the list.
+  */
+  .q-head {
+    --near: 0.375rem;
+    --fork-stroke: 2.5px;
+    --fork-x: 0.875rem;
+    position: relative;
+  }
+
+  .q-fork {
+    position: absolute;
+    overflow: visible;
+    fill: none;
+    stroke: var(--line);
+    stroke-width: var(--fork-stroke);
+    stroke-dasharray: 5 4;
+  }
+
+  .q-fork-side {
+    display: none;
+  }
+
+  .q-fork-top {
+    left: var(--near);
+    top: 0.625rem;
+    width: 3.5rem;
+    height: 2.125rem;
+  }
+
+  .q-side {
+    position: relative;
+    margin-top: var(--space-5);
+    padding-left: calc(var(--near) + 3.5rem + 0.875rem);
+    color: var(--muted);
+    font-size: var(--step--1);
+    line-height: 1.25rem;
+  }
+
+  .q-side::after {
+    content: '';
+    position: absolute;
+    left: calc(var(--near) + 3.5rem - 0.3125rem);
+    top: 0.3125rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: var(--bg);
+  }
+
+  @media (min-width: 56rem) {
+    .q-fork-top {
+      display: none;
+    }
+
+    .q-fork-side {
+      display: block;
+      left: calc(100% + var(--fork-x));
+      top: calc(-2 * var(--space-5));
+      width: 2.5rem;
+      height: 3.5rem;
+    }
+
+    .q-head::after {
+      content: '';
+      position: absolute;
+      left: calc(100% + var(--fork-x) - var(--fork-stroke) / 2);
+      top: 0.5rem;
+      bottom: 0.625rem;
+      width: var(--fork-stroke);
+      background: repeating-linear-gradient(to bottom, var(--line) 0 5px, transparent 5px 9px);
+    }
+
+    .q-side {
+      padding-left: 0;
+      text-align: right;
+    }
+
+    .q-side::after {
+      left: calc(100% + var(--fork-x) - 0.3125rem);
     }
   }
 

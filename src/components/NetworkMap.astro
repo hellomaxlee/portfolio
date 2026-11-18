@@ -25,7 +25,7 @@ interface Station {
   hub?: boolean;
   /** Extra `st-` slugs that should light this station from the page. */
   also?: string[];
-  /** The end of the dashed spur; its href leaves the site. */
+  /** The stop on the dashed track; its href leaves the site. */
   spur?: boolean;
 }
 
@@ -54,7 +54,7 @@ interface Layout {
   top: number;
   type: TypeScale;
   routes: Record<LineId, Node[]>;
-  /** A dashed branch of the quest line, leaving it at its first station. */
+  /** A short dashed fork of the quest line, from its first station to a stop of its own. */
   spur: Node[];
   places: Record<string, Placement>;
   legend: { at: Pt; direction: 'column' | 'row'; step: number[] };
@@ -112,7 +112,7 @@ const STROKE = 5.5;
 const PITCH = 8;
 const DOT_R = 3.5;
 const RING = 1.6;
-const SPUR_STROKE = 3;
+const SPUR_STROKE = 2.5;
 const SPUR_DOT = 2 * DOT_R + RING - 2;
 /** Interchange capsule: overall thickness across the lanes it joins. */
 const CAPSULE_W = 2 * DOT_R + RING;
@@ -223,13 +223,14 @@ const wide: Layout = {
   },
   spur: [
     [124, 124],
-    [124, 156, 14],
-    [94, 186],
+    [124, 186, 16],
+    [218, 280, 16],
+    [262, 280],
   ],
   places: {
     hamilton: { at: [40, 250], side: 'right' },
     stockholm: { at: [124, 116], to: [124, 124], side: 'above' },
-    cooking: { at: [94, 186], side: 'below' },
+    cooking: { at: [262, 280], side: 'right' },
     treasury: { at: [294, 116], side: 'above' },
     holland: { at: [226, 176], side: 'below', wrap: ['Century Across', 'Holland'] },
     amtrak: { at: [340, 176], side: 'below' },
@@ -275,16 +276,16 @@ const tall: Layout = {
   },
   spur: [
     [109, 64],
-    [70, 64, 12],
-    [44, 90],
-    [44, 104],
+    [78, 64, 14],
+    [48, 94, 14],
+    [48, 128],
   ],
   places: {
     hamilton: { at: [101, 20], side: 'right' },
     stockholm: { at: [101, 64], to: [109, 64], side: 'right', shift: -3 },
-    cooking: { at: [44, 104], side: 'below' },
+    cooking: { at: [48, 128], side: 'below' },
     holland: { at: [150, 136], side: 'right' },
-    treasury: { at: [101, 157], side: 'left' },
+    treasury: { at: [101, 192], side: 'left' },
     amtrak: { at: [150, 178], side: 'right' },
     washington: { at: [101, 250], to: [109, 250], side: 'right', shift: 5 },
     skipgram: { at: [150, 345], side: 'right' },
@@ -432,7 +433,7 @@ const stationNames = (id: LineId) =>
 const description =
   `A transit-style diagram of three lines that all end at New York. ` +
   LINES.map((l) => `${l.label}: ${stationNames(l.id)}.`).join(' ') +
-  ` A dashed branch leaves the side quests line at Stockholm for Cooking, which links to Instagram.`;
+  ` A short dashed fork leaves the side quests line at Stockholm and ends at its own stop, Cooking, which links to Instagram.`;
 ---
 
 <div class="nm">
@@ -607,7 +608,7 @@ const description =
   /* The spur is the quest line again, thinner and dashed. */
   .nm-spur {
     stroke-width: calc(var(--spurStroke) * 1px);
-    stroke-dasharray: 6 4;
+    stroke-dasharray: 5 5;
   }
 
   .nm-key,
@@ -723,7 +724,7 @@ const description =
     }
 
     .nm-spur {
-      stroke-dasharray: 6 4;
+      stroke-dasharray: 5 5;
       animation: nm-fade 480ms ease-out var(--nm-at) both;
     }
 
