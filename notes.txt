@@ -31,8 +31,9 @@
   (@byemaxlee; Max, 2026-11-18). It is kept subtle: short, thinner than the line, a smaller
   station, muted type, no legend entry, and an end of its own that touches no other line. On the
   hero map it leaves Stockholm and ends in the open space under the side-quest stops (to the left
-  of the trunk on a phone). Beside the side-quest list it forks left at the top of the line and
-  drops down the gap between the columns to a stop under the intro; on a phone, where there is no
+  of the trunk on a phone). Beside the side-quest list it forks left at the top of the line,
+  drops down the gap between the columns, and turns left on a 45 degree bend to run under the
+  intro, ending at a stop whose label keeps the column's left edge; on a phone, where there is no
   room to the left, it sits in the row above the list. No photo: thumbnails were tried and were
   louder than the entries around them.
 - Only cards whose number says something carry one. StationScope is the featured card.

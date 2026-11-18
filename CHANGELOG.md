@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-18
+- Side quests list: the cooking fork has rounder bends and now turns left under the intro, ending
+  beside a label on the column's left edge.
+
+## 2026-11-18
 - The cooking stop beside the side quests list now sits on top of its dashed line, like every
   other station.
 

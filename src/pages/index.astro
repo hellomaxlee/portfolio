@@ -108,8 +108,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           older I also take the occasional one with no plan at all, which I hear is how a lot of
           people travel.
         </p>
-        <svg class="q-fork q-fork-side" viewBox="0 0 40 56" aria-hidden="true">
-          <path d="M40 0V6Q40 10 37.2 12.8L2.8 47.2Q0 50 0 54V56" />
+        <svg class="q-fork q-fork-side" viewBox="0 0 40 60" aria-hidden="true">
+          <path d="M40 0V2.2Q40 8 35.9 12.1L4.1 43.9Q0 48 0 53.8V60" />
+        </svg>
+        <svg class="q-fork q-fork-turn" viewBox="0 0 28 40" aria-hidden="true">
+          <path d="M28 0V14.2Q28 20 23.9 24.1L12.1 35.9Q8 40 2.2 40H0" />
         </svg>
         <p class="q-side">
           <svg class="q-fork q-fork-top" viewBox="0 0 56 34" aria-hidden="true">
@@ -409,6 +412,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     background: var(--bg);
   }
 
+  .q-fork-turn {
+    display: none;
+  }
+
+  /*
+    Beside the heading: down the gap between the columns, then a 45 degree turn left under the
+    intro, ending at a stop whose label keeps the column's left edge.
+  */
   @media (min-width: 56rem) {
     .q-fork-top {
       display: none;
@@ -419,26 +430,48 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       left: calc(100% + var(--fork-x));
       top: calc(-2 * var(--space-5));
       width: 2.5rem;
-      height: 3.5rem;
+      height: 3.75rem;
     }
 
     .q-head::after {
       content: '';
       position: absolute;
       left: calc(100% + var(--fork-x) - var(--fork-stroke) / 2);
-      top: 0.5rem;
-      bottom: 0.625rem;
+      top: 0.75rem;
+      bottom: 3.125rem;
       width: var(--fork-stroke);
       background: repeating-linear-gradient(to bottom, var(--line) 0 5px, transparent 5px 9px);
     }
 
+    .q-fork-turn {
+      display: block;
+      left: calc(100% + var(--fork-x) - 1.75rem);
+      bottom: 0.625rem;
+      width: 1.75rem;
+      height: 2.5rem;
+    }
+
     .q-side {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
       padding-left: 0;
-      text-align: right;
+      padding-right: calc(1.75rem - var(--fork-x));
     }
 
     .q-side::after {
-      left: calc(100% + var(--fork-x) - 0.3125rem);
+      position: static;
+      flex: none;
+      order: 1;
+    }
+
+    .q-side::before {
+      content: '';
+      order: 2;
+      flex: 1;
+      height: var(--fork-stroke);
+      margin-left: calc(-1 * var(--space-2));
+      background: repeating-linear-gradient(to left, var(--line) 0 5px, transparent 5px 9px);
     }
   }
 
