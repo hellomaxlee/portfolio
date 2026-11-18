@@ -2,7 +2,7 @@
   Design tokens. Roles before values.
   Base: paper, ink, muted, rule, in warm cream and bark tones.
   Ground (--sky): one deep pine green for the hero, the footer, and the featured card.
-  Lines: work (wheat), build (terracotta), quest (lake blue).
+  Lines: work (wheat), build (terracotta), quest (lake blue), cooking (lavender, dashed).
   --map-* are the values used on the pine ground; --line-* are the values used on paper.
 */
 :root {
@@ -21,10 +21,12 @@
   --map-work: #ecbd4f;
   --map-build: #f0906c;
   --map-quest: #93d2e2;
+  --map-cook: #cdb4ea;
 
   --line-work: #c9962b;
   --line-build: #b04a28;
   --line-quest: #2a6b82;
+  --line-cook: #7b4f93;
   --on-line: #ffffff;
   --led-ground: #14110a;
   --focus: var(--ink);
@@ -63,6 +65,7 @@
     --line-work: #ecbd4f;
     --line-build: #f0906c;
     --line-quest: #93d2e2;
+    --line-cook: #cdb4ea;
     --on-line: #0f1712;
   }
 }
