@@ -3,6 +3,9 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-18
+- Side quests lead-in: "most people" is now "a lot of people".
+
+## 2026-11-18
 - Work paragraph: the cases are now described as complex litigation cases.
 
 ## 2026-11-18
