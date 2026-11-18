@@ -9,7 +9,7 @@
   `body:has(#life-dashboard:hover) .st-life-dashboard { --lit: 1 }`.
 */
 
-type LineId = 'work' | 'build' | 'quest' | 'cook';
+type LineId = 'work' | 'build' | 'quest';
 type Pt = readonly [x: number, y: number];
 /** A route vertex; `r` is the corner radius used when the route turns here. */
 type Node = readonly [x: number, y: number, r?: number];
@@ -53,16 +53,13 @@ interface Layout {
   type: TypeScale;
   routes: Record<LineId, Node[]>;
   places: Record<string, Placement>;
-  /** Where each legend entry sits, in the order of LINES. */
-  legend: Pt[];
+  legend: { at: Pt; direction: 'column' | 'row'; step: number[] };
 }
 
-// A dashed line is a hobby rather than a body of work, as a map dashes a part-time service.
-const LINES: Array<{ id: LineId; label: string; color: string; dashed?: boolean }> = [
+const LINES: Array<{ id: LineId; label: string; color: string }> = [
   { id: 'work', label: 'Work', color: 'var(--map-work)' },
   { id: 'build', label: 'Things I built', color: 'var(--map-build)' },
   { id: 'quest', label: 'Side quests', color: 'var(--map-quest)' },
-  { id: 'cook', label: 'Cooking', color: 'var(--map-cook)', dashed: true },
 ];
 
 const STATIONS: Station[] = [
@@ -86,12 +83,11 @@ const STATIONS: Station[] = [
   },
   { id: 'skipgram', name: 'Presidential Word Vectors', href: '#presidential-skipgram', lines: ['build'] },
   { id: 'dashboard', name: 'Life Dashboard', href: '#life-dashboard', lines: ['build'] },
-  { id: 'naples', name: 'Pizza in Naples', href: '#cooking', lines: ['cook'] },
   {
     id: 'new-york',
     name: 'New York',
     href: '#stationscope',
-    lines: ['work', 'quest', 'build', 'cook'],
+    lines: ['work', 'quest', 'build'],
     hub: true,
     note: 'StationScope, Hide and Seek',
     also: ['hide-and-seek'],
@@ -189,12 +185,6 @@ const trunkWide: Node[] = [
   [568, 186, 18],
   [664, 186],
 ];
-const buildWide: Node[] = [
-  [160, 340],
-  [456, 340, 18],
-  [598, 198, 18],
-  [664, 198],
-];
 const wide: Layout = {
   key: 'wide',
   width: 760,
@@ -211,9 +201,12 @@ const wide: Layout = {
       [415, 124, 16],
       ...offset(trunkWide, PITCH / 2).slice(1),
     ],
-    build: buildWide,
-    // Cooking runs beside Build for the last stretch into New York.
-    cook: [[396, 348], ...offset(buildWide, PITCH).slice(1)],
+    build: [
+      [160, 340],
+      [456, 340, 18],
+      [598, 198, 18],
+      [664, 198],
+    ],
   },
   places: {
     hamilton: { at: [40, 250], side: 'right' },
@@ -223,16 +216,10 @@ const wide: Layout = {
     amtrak: { at: [340, 176], side: 'below' },
     washington: { at: [464, 116], to: [464, 124], side: 'above' },
     skipgram: { at: [160, 340], side: 'below', wrap: ['Presidential', 'Word Vectors'] },
-    dashboard: { at: [300, 340], side: 'below' },
-    naples: { at: [424, 348], side: 'below' },
-    'new-york': { at: [664, 182], to: [664, 206], side: 'above' },
+    dashboard: { at: [330, 340], side: 'below' },
+    'new-york': { at: [664, 182], to: [664, 198], side: 'above' },
   },
-  legend: [
-    [630, 300],
-    [630, 322],
-    [630, 344],
-    [630, 366],
-  ],
+  legend: { at: [630, 300], direction: 'column', step: [0, 22, 44] },
 };
 
 /*
@@ -247,7 +234,7 @@ const trunkTall: Node[] = [
 const tall: Layout = {
   key: 'tall',
   width: 340,
-  height: 566,
+  height: 542,
   top: 0,
   type: { name: 13, note: 12, hub: 14 },
   routes: {
@@ -266,13 +253,6 @@ const tall: Layout = {
       [117, 457, 14],
       [117, 478],
     ],
-    // Cooking comes in from the left, the one side the other lines leave free.
-    cook: [
-      [70, 398],
-      [70, 440, 14],
-      [93, 463, 14],
-      [93, 478],
-    ],
   },
   places: {
     hamilton: { at: [101, 20], side: 'right' },
@@ -283,15 +263,9 @@ const tall: Layout = {
     washington: { at: [101, 250], to: [109, 250], side: 'right', shift: 5 },
     skipgram: { at: [150, 345], side: 'right' },
     dashboard: { at: [150, 395], side: 'right' },
-    naples: { at: [70, 398], side: 'left', wrap: ['Pizza in', 'Naples'] },
-    'new-york': { at: [93, 478], to: [117, 478], side: 'right', shift: 6 },
+    'new-york': { at: [101, 478], to: [117, 478], side: 'right', shift: 6 },
   },
-  legend: [
-    [22, 524],
-    [150, 524],
-    [22, 548],
-    [150, 548],
-  ],
+  legend: { at: [22, 526], direction: 'row', step: [0, 82, 204] },
 };
 
 /* ---------- Timing ---------- */
@@ -322,12 +296,7 @@ function render(layout: Layout) {
   const stockholm = layout.places.stockholm.at;
   const questStart =
     WORK_START + timeAtProgress(progressAt(layout.routes.work, stockholm)) * (ARRIVAL - WORK_START);
-  const start: Record<LineId, number> = {
-    work: WORK_START,
-    quest: questStart,
-    build: WORK_START + 320,
-    cook: WORK_START + 560,
-  };
+  const start: Record<LineId, number> = { work: WORK_START, quest: questStart, build: WORK_START + 320 };
 
   const lines = LINES.map((line) => ({
     ...line,
@@ -338,8 +307,8 @@ function render(layout: Layout) {
 
   const legend = LINES.map((line, i) => ({
     ...line,
-    x: layout.legend[i][0],
-    y: layout.legend[i][1],
+    x: layout.legend.at[0] + (layout.legend.direction === 'row' ? layout.legend.step[i] : 0),
+    y: layout.legend.at[1] + (layout.legend.direction === 'column' ? layout.legend.step[i] : 0),
     width: 30 + line.label.length * type.note * 0.52,
   }));
 
@@ -424,7 +393,7 @@ const stationNames = (id: LineId) =>
     .map((s) => s.name)
     .join(', ');
 const description =
-  `A transit-style diagram of four lines that all end at New York. ` +
+  `A transit-style diagram of three lines that all end at New York. ` +
   LINES.map((l) => `${l.label}: ${stationNames(l.id)}.`).join(' ');
 ---
 
@@ -444,9 +413,9 @@ const description =
         <g aria-hidden="true">
           {map.lines.map((line) => (
             <path
-              class:list={['nm-line', { 'nm-dashed': line.dashed }]}
+              class="nm-line"
               d={line.d}
-              pathLength={line.dashed ? undefined : '1'}
+              pathLength="1"
               stroke={line.color}
               style={`--nm-mine:var(--nm-${line.id}, 0);--nm-at:${line.delay}ms;--nm-dur:${line.duration}ms`}
             />
@@ -458,11 +427,7 @@ const description =
             <g class:list={['nm-key', `nm-on-${key.id}`]} style={`--nm-mine:var(--nm-${key.id}, 0)`}>
               <rect class="nm-key-hit" x={key.x - 8} y={key.y - 11} width={round(key.width + 16)} height="22" />
               <g class="nm-settle" style={`--nm-at:${ARRIVAL}ms`}>
-                <path
-                  class:list={['nm-key-line', { 'nm-dashed': key.dashed }]}
-                  d={`M${key.x} ${key.y} h20`}
-                  stroke={key.color}
-                />
+                <path class="nm-key-line" d={`M${key.x} ${key.y} h20`} stroke={key.color} />
                 <text class="nm-key-label" x={key.x + 30} y={key.y + 4.2}>
                   {key.label}
                 </text>
@@ -552,11 +517,6 @@ const description =
     --nm-quest: 1;
   }
 
-  .nm-svg:has(.nm-on-cook:focus-visible) {
-    --nm-any: 1;
-    --nm-cook: 1;
-  }
-
   @media (hover: hover) {
     .nm-svg:has(.nm-on-work:hover) {
       --nm-any: 1;
@@ -571,11 +531,6 @@ const description =
     .nm-svg:has(.nm-on-quest:hover) {
       --nm-any: 1;
       --nm-quest: 1;
-    }
-
-    .nm-svg:has(.nm-on-cook:hover) {
-      --nm-any: 1;
-      --nm-cook: 1;
     }
 
     .nm-station:hover {
@@ -599,16 +554,6 @@ const description =
   .nm-key,
   .nm-station {
     --nm-recede: 0.28;
-  }
-
-  /* The dashed line. Dashes are in drawing units, so it has no pathLength. */
-  .nm-line.nm-dashed {
-    stroke-dasharray: 9 6;
-  }
-
-  .nm-key-line.nm-dashed {
-    stroke-linecap: butt;
-    stroke-dasharray: 6 4;
   }
 
   /*
@@ -707,12 +652,6 @@ const description =
     .nm-line {
       stroke-dasharray: 1 1;
       animation: nm-draw var(--nm-dur) cubic-bezier(0.4, 0, 0.3, 1) var(--nm-at) both;
-    }
-
-    /* A dashed line cannot be drawn with a dash offset, so it fades in. */
-    .nm-line.nm-dashed {
-      stroke-dasharray: 9 6;
-      animation: nm-fade 600ms ease-out var(--nm-at) both;
     }
 
     .nm-settle {

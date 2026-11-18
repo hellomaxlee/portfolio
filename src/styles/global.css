@@ -95,7 +95,6 @@ body:has(#smithsonian:hover) .st-smithsonian,
 body:has(#hide-and-seek:hover) .st-hide-and-seek,
 body:has(#hide-and-seek:hover) .st-stationscope,
 body:has(#holland:hover) .st-holland,
-body:has(#cooking:hover) .st-cooking,
 body:has(#about:hover) .st-about {
   --lit: 1;
 }

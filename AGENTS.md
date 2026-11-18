@@ -20,8 +20,8 @@ goes in either: no unpublished projects, no personal commentary, no details that
 1. A visitor on a phone learns who Max is and what he does without scrolling.
 2. Software projects are cards and travel side quests are a short list, each led by one number
    and one or two plain sentences. The hero network map links to every one of them.
-3. The site is self-contained: the only outside links are LinkedIn, GitHub, Instagram, and Max's own
-   live apps.
+3. The site is self-contained: the only outside links are LinkedIn, GitHub, and Max's own live
+   apps.
 4. The site builds from a clean clone with one command and deploys on push to `main`.
 5. Lighthouse scores 95 or higher on performance, accessibility, best practices, and SEO, on
    mobile, for every page.
@@ -83,7 +83,7 @@ Rules that outrank any design idea or feature request.
 - **No tracking.** No cookies, no third-party scripts, no pixels. If analytics is ever wanted, it
   is cookieless and Max asks for it.
 - **Restraint.** Two type families, one colour per line (work wheat, build terracotta, quest lake
-  blue, cooking lavender and dashed), one pine-green ground for the hero, footer, and featured card, one layout width. A new
+  blue), one pine-green ground for the hero, footer, and featured card, one layout width. A new
   colour needs a job; a new visual element needs a reason a visitor would notice.
 
 ## Working Rules

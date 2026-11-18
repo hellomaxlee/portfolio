@@ -23,9 +23,6 @@
   Wheat, terracotta, and lake blue for the three lines on pine green; cream paper and bark ink.
   All text pairs measure 4.8:1 or better. The wheat section swatch on paper is 2.4:1; it is
   decorative and its ink ring carries the mark.
-- Cooking is a fourth map line, dashed because it is a hobby, with one stop (learning to make
-  pizza in Naples, from Max's own travel write-up) and a three-sentence section. Instagram needs
-  a login, so nothing was taken from it; the section links to his profile.
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, and Max's own apps only.
