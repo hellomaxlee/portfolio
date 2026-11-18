@@ -4,7 +4,7 @@ kind: built
 order: 3
 full: true
 image: life-dashboard-screens.png
-imageAlt: "Three pixel-art dashboard screens: today's sleep and workout, the weather, and a moon over water."
+imageAlt: "Six pixel-art dashboard screens: today's sleep and workout, the weather, the week's workouts drawn as planets, a moon over water, a bookshelf, and a workout celebration."
 links:
   - label: Code
     href: https://github.com/hellomaxlee/life-dashboard
