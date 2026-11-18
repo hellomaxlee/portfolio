@@ -1,0 +1,696 @@
+---
+/*
+  Hero network map: Max drawn as a three-line transit schematic.
+  Two hand-laid diagrams (landscape and portrait) are generated from the same
+  station data; CSS shows one of them. No client JavaScript.
+
+  Hook for the page: every station carries `st-<slug>` (the slug of its href),
+  and setting `--lit: 1` on it lights that station, for example
+  `body:has(#life-dashboard:hover) .st-life-dashboard { --lit: 1 }`.
+*/
+
+type LineId = 'work' | 'build' | 'quest';
+type Pt = readonly [x: number, y: number];
+/** A route vertex; `r` is the corner radius used when the route turns here. */
+type Node = readonly [x: number, y: number, r?: number];
+type Side = 'above' | 'below' | 'left' | 'right';
+
+interface Station {
+  id: string;
+  name: string;
+  href: string;
+  lines: LineId[];
+  /** Interchanges only: one short line saying what is there. */
+  note?: string;
+  hub?: boolean;
+  /** Extra `st-` slugs that should light this station from the page. */
+  also?: string[];
+}
+
+interface Placement {
+  /** Symbol centre, or the two lane centres an interchange capsule spans. */
+  at: Pt;
+  to?: Pt;
+  side: Side;
+  /** Name broken over lines, where the full name is too long for its slot. */
+  wrap?: string[];
+  /** Nudge for side labels, so a label block can sit clear of a diagonal. */
+  shift?: number;
+}
+
+interface TypeScale {
+  name: number;
+  note: number;
+  hub: number;
+}
+
+interface Layout {
+  key: 'wide' | 'tall';
+  width: number;
+  height: number;
+  /** Top edge of the viewBox, so the drawing can be cropped without moving it. */
+  top: number;
+  type: TypeScale;
+  routes: Record<LineId, Node[]>;
+  places: Record<string, Placement>;
+  legend: { at: Pt; direction: 'column' | 'row'; step: number[] };
+}
+
+const LINES: Array<{ id: LineId; label: string; color: string }> = [
+  { id: 'work', label: 'Work', color: 'var(--map-work)' },
+  { id: 'build', label: 'Things I built', color: 'var(--map-build)' },
+  { id: 'quest', label: 'Side quests', color: 'var(--map-quest)' },
+];
+
+const STATIONS: Station[] = [
+  { id: 'hamilton', name: 'Hamilton College', href: '#about', lines: ['work'] },
+  {
+    id: 'stockholm',
+    name: 'Stockholm',
+    href: '#european-excursions',
+    lines: ['work', 'quest'],
+    note: '27 cities, 12 countries',
+  },
+  { id: 'treasury', name: 'U.S. Treasury', href: '#about', lines: ['work'] },
+  { id: 'holland', name: 'Century Across Holland', href: '#holland', lines: ['quest'] },
+  { id: 'amtrak', name: 'U.S. by Amtrak', href: '#amtrak', lines: ['quest'] },
+  {
+    id: 'washington',
+    name: 'Washington',
+    href: '#smithsonian',
+    lines: ['work', 'quest'],
+    note: 'CFPB, 14 Smithsonian museums',
+  },
+  { id: 'skipgram', name: 'Presidential Word Vectors', href: '#presidential-skipgram', lines: ['build'] },
+  { id: 'bots', name: 'Root Bot & Jet Lag Bot', href: '#rules-bots', lines: ['build'] },
+  { id: 'dashboard', name: 'Life Dashboard', href: '#life-dashboard', lines: ['build'] },
+  {
+    id: 'new-york',
+    name: 'New York',
+    href: '#stationscope',
+    lines: ['work', 'quest', 'build'],
+    hub: true,
+    note: 'StationScope, Hide and Seek',
+    also: ['hide-and-seek'],
+  },
+];
+
+/* ---------- Geometry ---------- */
+
+const STROKE = 5.5;
+/** Centre-to-centre spacing of lines sharing a corridor. */
+const PITCH = 8;
+const DOT_R = 3.5;
+const RING = 1.6;
+/** Interchange capsule: overall thickness across the lanes it joins. */
+const CAPSULE_W = 2 * DOT_R + RING;
+/** The New York hub is drawn this much heavier than the other interchanges. */
+const HUB_EXTRA = 2;
+
+const round = (n: number) => Math.round(n * 100) / 100;
+const unit = (a: Pt | Node, b: Pt | Node): Pt => {
+  const d = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
+  return [(b[0] - a[0]) / d, (b[1] - a[1]) / d];
+};
+const cross = (u: Pt, v: Pt) => u[0] * v[1] - u[1] * v[0];
+const dot = (u: Pt, v: Pt) => u[0] * v[0] + u[1] * v[1];
+
+/**
+ * A parallel copy of a route, `d` units to the right of the direction of travel.
+ * Corner radii grow or shrink by `d` so bends in a shared corridor stay concentric.
+ */
+function offset(nodes: Node[], d: number): Node[] {
+  return nodes.map((p, i) => {
+    const before = i > 0 ? unit(nodes[i - 1], p) : unit(p, nodes[i + 1]);
+    const after = i < nodes.length - 1 ? unit(p, nodes[i + 1]) : before;
+    const n1: Pt = [-before[1], before[0]];
+    const n2: Pt = [-after[1], after[0]];
+    const k = d / (1 + dot(n1, n2));
+    const turn = Math.sign(round(cross(before, after)));
+    const r = p[2] === undefined ? undefined : p[2] - d * turn;
+    return [round(p[0] + k * (n1[0] + n2[0])), round(p[1] + k * (n1[1] + n2[1])), r] as const;
+  });
+}
+
+/** Route vertices to a path, with each turn rounded by a circular arc. */
+function toPath(nodes: Node[]): string {
+  const out = [`M${nodes[0][0]} ${nodes[0][1]}`];
+  for (let i = 1; i < nodes.length; i++) {
+    const p = nodes[i];
+    const next = nodes[i + 1];
+    const r = p[2] ?? 0;
+    const u = unit(nodes[i - 1], p);
+    const v = next ? unit(p, next) : u;
+    const turn = round(cross(u, v));
+    if (!next || r <= 0 || turn === 0) {
+      out.push(`L${p[0]} ${p[1]}`);
+      continue;
+    }
+    const half = Math.acos(Math.min(1, Math.max(-1, dot(u, v)))) / 2;
+    const t = r * Math.tan(half);
+    out.push(
+      `L${round(p[0] - u[0] * t)} ${round(p[1] - u[1] * t)}`,
+      `A${round(r)} ${round(r)} 0 0 ${turn > 0 ? 1 : 0} ${round(p[0] + v[0] * t)} ${round(p[1] + v[1] * t)}`,
+    );
+  }
+  return out.join(' ');
+}
+
+/** How far along a route (0 to 1) a point sits; used to time station reveals. */
+function progressAt(nodes: Node[], pt: Pt): number {
+  let total = 0;
+  let best = { dist: Infinity, along: 0 };
+  for (let i = 1; i < nodes.length; i++) {
+    const a = nodes[i - 1];
+    const b = nodes[i];
+    const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const u = unit(a, b);
+    const s = Math.min(len, Math.max(0, (pt[0] - a[0]) * u[0] + (pt[1] - a[1]) * u[1]));
+    const dist = Math.hypot(pt[0] - (a[0] + u[0] * s), pt[1] - (a[1] + u[1] * s));
+    if (dist < best.dist) best = { dist, along: total + s };
+    total += len;
+  }
+  return best.along / total;
+}
+
+/* ---------- Layouts ---------- */
+
+/*
+  Landscape. Work and Quest share one corridor (centre line `trunkWide`): together
+  through Stockholm, Quest dips away for its two stations, they re-meet at
+  Washington and jog down to New York, where Build rises to join them.
+*/
+const trunkWide: Node[] = [
+  [124, 120],
+  [502, 120, 18],
+  [568, 186, 18],
+  [664, 186],
+];
+const wide: Layout = {
+  key: 'wide',
+  width: 760,
+  height: 364,
+  top: 38,
+  type: { name: 14.5, note: 12.5, hub: 15.5 },
+  routes: {
+    work: [[40, 250], [40, 116, 22], ...offset(trunkWide, -PITCH / 2).slice(1)],
+    quest: [
+      [124, 124],
+      [151, 124, 16],
+      [203, 176, 16],
+      [363, 176, 16],
+      [415, 124, 16],
+      ...offset(trunkWide, PITCH / 2).slice(1),
+    ],
+    build: [
+      [44, 340],
+      [456, 340, 18],
+      [598, 198, 18],
+      [664, 198],
+    ],
+  },
+  places: {
+    hamilton: { at: [40, 250], side: 'right' },
+    stockholm: { at: [124, 116], to: [124, 124], side: 'above' },
+    treasury: { at: [294, 116], side: 'above' },
+    holland: { at: [226, 176], side: 'below', wrap: ['Century Across', 'Holland'] },
+    amtrak: { at: [340, 176], side: 'below' },
+    washington: { at: [464, 116], to: [464, 124], side: 'above' },
+    skipgram: { at: [44, 340], side: 'below', wrap: ['Presidential', 'Word Vectors'] },
+    bots: { at: [240, 340], side: 'below', wrap: ['Root Bot &', 'Jet Lag Bot'] },
+    dashboard: { at: [436, 340], side: 'below' },
+    'new-york': { at: [664, 182], to: [664, 198], side: 'above' },
+  },
+  legend: { at: [630, 300], direction: 'column', step: [0, 22, 44] },
+};
+
+/*
+  Portrait. The same network turned to run down the page: the shared corridor is
+  a straight vertical, Quest swings right for its two stations, and Build runs
+  down the right before merging into the corridor above New York.
+*/
+const trunkTall: Node[] = [
+  [105, 64],
+  [105, 478],
+];
+const tall: Layout = {
+  key: 'tall',
+  width: 340,
+  height: 542,
+  top: 0,
+  type: { name: 13, note: 12, hub: 14 },
+  routes: {
+    work: [[101, 20], ...offset(trunkTall, PITCH / 2)],
+    quest: [
+      [109, 64],
+      [109, 82, 14],
+      [150, 123, 14],
+      [150, 191, 14],
+      [109, 232, 14],
+      [109, 478],
+    ],
+    build: [
+      [150, 320],
+      [150, 424, 14],
+      [117, 457, 14],
+      [117, 478],
+    ],
+  },
+  places: {
+    hamilton: { at: [101, 20], side: 'right' },
+    stockholm: { at: [101, 64], to: [109, 64], side: 'right', shift: -3 },
+    holland: { at: [150, 136], side: 'right' },
+    treasury: { at: [101, 157], side: 'left' },
+    amtrak: { at: [150, 178], side: 'right' },
+    washington: { at: [101, 250], to: [109, 250], side: 'right', shift: 5 },
+    skipgram: { at: [150, 320], side: 'right' },
+    bots: { at: [150, 365], side: 'right' },
+    dashboard: { at: [150, 410], side: 'right' },
+    'new-york': { at: [101, 478], to: [117, 478], side: 'right', shift: 6 },
+  },
+  legend: { at: [22, 526], direction: 'row', step: [0, 82, 204] },
+};
+
+/* ---------- Timing ---------- */
+
+// The draw easing, and its inverse so a station appears as its line arrives.
+const EASE = [0.4, 0, 0.3, 1] as const;
+function timeAtProgress(p: number): number {
+  const bez = (s: number, a: number, b: number) => 3 * (1 - s) ** 2 * s * a + 3 * (1 - s) * s ** 2 * b + s ** 3;
+  let lo = 0;
+  let hi = 1;
+  for (let i = 0; i < 24; i++) {
+    const mid = (lo + hi) / 2;
+    if (bez(mid, EASE[1], EASE[3]) < p) lo = mid;
+    else hi = mid;
+  }
+  return bez(lo, EASE[0], EASE[2]);
+}
+
+const WORK_START = 80;
+const ARRIVAL = 1600; // every line reaches New York at this moment
+
+const slug = (href: string) => href.replace('#', '');
+
+function render(layout: Layout) {
+  const { type } = layout;
+
+  // Work sets out first, Quest leaves Stockholm as Work passes it, Build follows a beat later.
+  const stockholm = layout.places.stockholm.at;
+  const questStart =
+    WORK_START + timeAtProgress(progressAt(layout.routes.work, stockholm)) * (ARRIVAL - WORK_START);
+  const start: Record<LineId, number> = { work: WORK_START, quest: questStart, build: WORK_START + 320 };
+
+  const lines = LINES.map((line) => ({
+    ...line,
+    d: toPath(layout.routes[line.id]),
+    delay: Math.round(start[line.id]),
+    duration: Math.round(ARRIVAL - start[line.id]),
+  }));
+
+  const legend = LINES.map((line, i) => ({
+    ...line,
+    x: layout.legend.at[0] + (layout.legend.direction === 'row' ? layout.legend.step[i] : 0),
+    y: layout.legend.at[1] + (layout.legend.direction === 'column' ? layout.legend.step[i] : 0),
+    width: 30 + line.label.length * type.note * 0.52,
+  }));
+
+  const stations = STATIONS.map((station) => {
+    const place = layout.places[station.id];
+    const a = place.at;
+    const b = place.to ?? place.at;
+    const cx = (a[0] + b[0]) / 2;
+    const cy = (a[1] + b[1]) / 2;
+    const half = CAPSULE_W / 2 + (station.hub ? HUB_EXTRA / 2 : 0);
+    const sym = {
+      x0: Math.min(a[0], b[0]) - half,
+      x1: Math.max(a[0], b[0]) + half,
+      y0: Math.min(a[1], b[1]) - half,
+      y1: Math.max(a[1], b[1]) + half,
+    };
+
+    // Label block: the name (wrapped where needed), then the note at an interchange.
+    const nameSize = station.hub ? type.hub : type.name;
+    const rows = [
+      ...(place.wrap ?? [station.name]).map((text) => ({ text, size: nameSize, isNote: false })),
+      ...(station.note ? [{ text: station.note, size: type.note, isNote: true }] : []),
+    ];
+    let y = 0;
+    const laid = rows.map((row, i) => {
+      if (i > 0) y += row.isNote ? row.size * 1.4 : row.size * 1.2;
+      return { ...row, y };
+    });
+    const capTop = -0.72 * rows[0].size;
+    const bottom = y + 0.24 * rows[rows.length - 1].size;
+    const gap = 8;
+    let baseline: number;
+    if (place.side === 'above') baseline = sym.y0 - gap - bottom;
+    else if (place.side === 'below') baseline = sym.y1 + gap - capTop;
+    else baseline = cy - (capTop + bottom) / 2 + (place.shift ?? 0);
+
+    const anchor = place.side === 'right' ? 'start' : place.side === 'left' ? 'end' : 'middle';
+    const tx = place.side === 'right' ? sym.x1 + gap : place.side === 'left' ? sym.x0 - gap : cx;
+
+    // Approximate text extent, only for the hit and highlight rectangle.
+    const textWidth = Math.max(...rows.map((r) => r.text.length * r.size * 0.5));
+    const tx0 = anchor === 'start' ? tx : anchor === 'end' ? tx - textWidth : tx - textWidth / 2;
+    const hit = {
+      x: Math.max(1, Math.min(sym.x0, tx0) - 5),
+      y: Math.min(sym.y0, baseline + capTop) - 6,
+      x1: Math.min(layout.width - 1, Math.max(sym.x1, tx0 + textWidth) + 5),
+      y1: Math.max(sym.y1, baseline + bottom) + 6,
+    };
+
+    const at = Math.min(
+      ...station.lines.map((id) => {
+        const p = progressAt(layout.routes[id], id === station.lines[0] ? a : b);
+        return start[id] + timeAtProgress(p) * (ARRIVAL - start[id]);
+      }),
+    );
+
+    return {
+      ...station,
+      label: station.note ? `${station.name}: ${station.note}` : station.name,
+      classes: [
+        'nm-station',
+        ...[slug(station.href), ...(station.also ?? [])].map((s) => `st-${s}`),
+        ...station.lines.map((id) => `nm-on-${id}`),
+        { 'nm-hub': station.hub },
+      ],
+      // 1 when any of this station's lines is the one in focus.
+      mine: `max(${station.lines.map((id) => `var(--nm-${id}, 0)`).join(', ')})`,
+      trace: `M${a[0]} ${a[1]} L${b[0]} ${b[1]}`,
+      text: { x: round(tx), anchor, rows: laid.map((r) => ({ ...r, y: round(baseline + r.y) })) },
+      hit: { x: round(hit.x), y: round(hit.y), width: round(hit.x1 - hit.x), height: round(hit.y1 - hit.y) },
+      at: Math.round(at),
+    };
+  });
+
+  return { ...layout, lines, legend, stations };
+}
+
+const diagrams = [render(wide), render(tall)];
+
+const stationNames = (id: LineId) =>
+  STATIONS.filter((s) => s.lines.includes(id))
+    .map((s) => s.name)
+    .join(', ');
+const description =
+  `A transit-style diagram of three lines that all end at New York. ` +
+  LINES.map((l) => `${l.label}: ${stationNames(l.id)}.`).join(' ');
+---
+
+<div class="nm">
+  <p id="network-map-desc" class="nm-sr">{description}</p>
+
+  {
+    diagrams.map((map) => (
+      <svg
+        class:list={['nm-svg', `nm-${map.key}`]}
+        viewBox={`0 ${map.top} ${map.width} ${map.height}`}
+        role="group"
+        aria-label="Network map"
+        aria-describedby="network-map-desc"
+        style={`--nm-name:${map.type.name}px;--nm-note:${map.type.note}px;--nm-hub:${map.type.hub}px`}
+      >
+        <g aria-hidden="true">
+          {map.lines.map((line) => (
+            <path
+              class="nm-line"
+              d={line.d}
+              pathLength="1"
+              stroke={line.color}
+              style={`--nm-mine:var(--nm-${line.id}, 0);--nm-at:${line.delay}ms;--nm-dur:${line.duration}ms`}
+            />
+          ))}
+        </g>
+
+        <g>
+          {map.legend.map((key) => (
+            <g class:list={['nm-key', `nm-on-${key.id}`]} style={`--nm-mine:var(--nm-${key.id}, 0)`}>
+              <rect class="nm-key-hit" x={key.x - 8} y={key.y - 11} width={round(key.width + 16)} height="22" />
+              <g class="nm-settle" style={`--nm-at:${ARRIVAL}ms`}>
+                <path class="nm-key-line" d={`M${key.x} ${key.y} h20`} stroke={key.color} />
+                <text class="nm-key-label" x={key.x + 30} y={key.y + 4.2}>
+                  {key.label}
+                </text>
+              </g>
+            </g>
+          ))}
+        </g>
+
+        <g>
+          {map.stations.map((s) => (
+            <a class:list={s.classes} href={s.href} aria-label={s.label} style={`--nm-mine:${s.mine};--nm-at:${s.at}ms`}>
+              <rect class="nm-hit" x={s.hit.x} y={s.hit.y} width={s.hit.width} height={s.hit.height} rx="8" />
+              <g class="nm-symbol nm-settle">
+                <path class="nm-ring" d={s.trace} />
+                <path class="nm-well" d={s.trace} />
+                <path class="nm-core" d={s.trace} />
+              </g>
+              <text class="nm-label nm-settle" x={s.text.x} text-anchor={s.text.anchor} aria-hidden="true">
+                {s.text.rows.map((row) => (
+                  <tspan class={row.isNote ? 'nm-note' : 'nm-name'} x={s.text.x} y={row.y}>
+                    {row.text}
+                  </tspan>
+                ))}
+              </text>
+            </a>
+          ))}
+        </g>
+      </svg>
+    ))
+  }
+</div>
+
+<style define:vars={{ stroke: STROKE, ring: RING, capsule: CAPSULE_W, hubExtra: HUB_EXTRA }}>
+  .nm {
+    font-family: var(--font-text);
+  }
+
+  .nm-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .nm-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .nm-tall {
+    display: none;
+  }
+
+  @media (max-width: 40rem) {
+    .nm-wide {
+      display: none;
+    }
+
+    .nm-tall {
+      display: block;
+    }
+  }
+
+  /*
+    Line focus. Pointing at a legend entry or a station (or focusing a station)
+    sets --nm-any and that line's flag on the diagram. Each line, station, and
+    legend entry carries --nm-mine, which is 1 when one of its own lines is the
+    one in focus; everything else steps back.
+  */
+  .nm-svg:has(.nm-on-work:focus-visible) {
+    --nm-any: 1;
+    --nm-work: 1;
+  }
+
+  .nm-svg:has(.nm-on-build:focus-visible) {
+    --nm-any: 1;
+    --nm-build: 1;
+  }
+
+  .nm-svg:has(.nm-on-quest:focus-visible) {
+    --nm-any: 1;
+    --nm-quest: 1;
+  }
+
+  @media (hover: hover) {
+    .nm-svg:has(.nm-on-work:hover) {
+      --nm-any: 1;
+      --nm-work: 1;
+    }
+
+    .nm-svg:has(.nm-on-build:hover) {
+      --nm-any: 1;
+      --nm-build: 1;
+    }
+
+    .nm-svg:has(.nm-on-quest:hover) {
+      --nm-any: 1;
+      --nm-quest: 1;
+    }
+
+    .nm-station:hover {
+      --lit: 1;
+    }
+  }
+
+  .nm-line,
+  .nm-key,
+  .nm-station {
+    opacity: calc(1 - var(--nm-any, 0) * (1 - var(--nm-mine)) * var(--nm-recede));
+    transition: opacity 220ms ease;
+  }
+
+  .nm-line {
+    --nm-recede: 0.62;
+    fill: none;
+    stroke-width: calc(var(--stroke) * 1px);
+  }
+
+  .nm-key,
+  .nm-station {
+    --nm-recede: 0.28;
+  }
+
+  /*
+    Stations. --lit (0 or 1) is the public hook: the page can set it on
+    .st-<slug> to light a station from outside the map.
+  */
+  .nm-station {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nm-station:focus-visible {
+    --lit: 1;
+  }
+
+  .nm-hit {
+    fill: var(--on-sky);
+    fill-opacity: calc(var(--lit, 0) * 0.1);
+    stroke: var(--on-sky);
+    stroke-width: 1.5px;
+    stroke-opacity: 0;
+    transition: fill-opacity 180ms ease;
+  }
+
+  .nm-station:focus-visible .nm-hit {
+    stroke-opacity: 1;
+  }
+
+  /* A station is one short stroke with round caps: a ring for a single stop,
+     a capsule where it spans the lanes of an interchange. */
+  .nm-ring,
+  .nm-well,
+  .nm-core {
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  .nm-ring {
+    stroke: var(--on-sky);
+    stroke-width: calc((var(--capsule) + var(--hub, 0)) * 1px);
+  }
+
+  .nm-well {
+    stroke: var(--sky);
+    stroke-width: calc((var(--capsule) + var(--hub, 0) - 2 * var(--ring)) * 1px);
+  }
+
+  .nm-core {
+    stroke: var(--on-sky);
+    stroke-width: calc((var(--capsule) + var(--hub, 0) - 2 * var(--ring)) * 1px);
+    opacity: var(--lit, 0);
+    transition: opacity 180ms ease;
+  }
+
+  .nm-hub {
+    --hub: var(--hubExtra);
+  }
+
+  /* Type */
+
+  .nm-name {
+    fill: var(--on-sky);
+    font-size: var(--nm-name);
+    font-weight: 450;
+  }
+
+  .nm-station:has(.nm-note) .nm-name {
+    font-weight: 600;
+  }
+
+  .nm-hub .nm-name {
+    font-size: var(--nm-hub);
+  }
+
+  .nm-note,
+  .nm-key-label {
+    fill: var(--on-sky-muted);
+    font-size: var(--nm-note);
+    font-weight: 450;
+  }
+
+  .nm-key-hit {
+    fill: none;
+    pointer-events: all;
+  }
+
+  .nm-key-line {
+    fill: none;
+    stroke-width: calc(var(--stroke) * 1px);
+    stroke-linecap: round;
+  }
+
+  /* Motion: the lines draw in once, each station settles as its line arrives, then rest. */
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nm-line {
+      stroke-dasharray: 1 1;
+      animation: nm-draw var(--nm-dur) cubic-bezier(0.4, 0, 0.3, 1) var(--nm-at) both;
+    }
+
+    .nm-settle {
+      animation: nm-fade 360ms ease-out var(--nm-at) both;
+    }
+
+    .nm-symbol {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation-name: nm-settle;
+    }
+
+    .nm-label {
+      animation-delay: calc(var(--nm-at) + 60ms);
+    }
+  }
+
+  @keyframes nm-draw {
+    from {
+      stroke-dashoffset: 1;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes nm-settle {
+    from {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+  }
+
+  @keyframes nm-fade {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

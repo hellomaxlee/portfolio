@@ -1,0 +1,67 @@
+/*
+  Design tokens. Roles before values.
+  Base: paper, ink, muted, rule. Sky: one deep indigo ground for the hero map.
+  Lines: work (gold), build (coral), quest (teal). The hues are the Life Dashboard's
+  GOLD, CORAL, and TEAL. --map-* are the values used on the sky; --line-* on paper.
+*/
+:root {
+  color-scheme: light dark;
+
+  --bg: #f6f4ee;
+  --surface: #ffffff;
+  --ink: #1a1d33;
+  --muted: #5a5f77;
+  --rule: #e2ded3;
+
+  --sky: #191861;
+  --on-sky: #f2f0e9;
+  --on-sky-muted: #a8b6df;
+
+  --map-work: #ffc828;
+  --map-build: #ff5a50;
+  --map-quest: #28dcc8;
+
+  --line-work: #e3a900;
+  --line-build: #d63c30;
+  --line-quest: #0a8a7c;
+  --on-line: #ffffff;
+  --led-ground: #14110a;
+  --focus: var(--ink);
+
+  --font-display: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
+  --font-text: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: clamp(1.4rem, 1.2rem + 0.9vw, 1.75rem);
+  --step-3: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: clamp(4rem, 3rem + 5vw, 7rem);
+
+  --width: 70rem;
+  --gutter: clamp(1.125rem, 0.5rem + 2.5vw, 2rem);
+  --radius: 0.875rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #07091a;
+    --surface: #0f1225;
+    --ink: #ebebf5;
+    --muted: #9da3be;
+    --rule: #272c44;
+
+    --line-work: #ffc828;
+    --line-build: #ff5a50;
+    --line-quest: #28dcc8;
+    --on-line: #07091a;
+  }
+}

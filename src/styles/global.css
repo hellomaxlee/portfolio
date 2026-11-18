@@ -1,0 +1,101 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--width));
+  margin-inline: auto;
+}
+
+/* The one ground that is not paper: hero and footer. */
+.sky {
+  --focus: var(--map-work);
+  background: var(--sky);
+  color: var(--on-sky);
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: -4rem;
+  padding: var(--space-2) var(--space-4);
+  background: var(--on-sky);
+  color: var(--sky);
+  border-radius: 0 0 0.5rem 0.5rem;
+  z-index: 20;
+}
+
+.skip:focus {
+  top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Hovering or focusing a project lights its station on the hero map. */
+body:has(#stationscope:is(:hover, :focus-within)) .st-stationscope,
+body:has(#life-dashboard:is(:hover, :focus-within)) .st-life-dashboard,
+body:has(#rules-bots:is(:hover, :focus-within)) .st-rules-bots,
+body:has(#presidential-skipgram:is(:hover, :focus-within)) .st-presidential-skipgram,
+body:has(#european-excursions:hover) .st-european-excursions,
+body:has(#amtrak:hover) .st-amtrak,
+body:has(#smithsonian:hover) .st-smithsonian,
+body:has(#hide-and-seek:hover) .st-hide-and-seek,
+body:has(#hide-and-seek:hover) .st-stationscope,
+body:has(#holland:hover) .st-holland,
+body:has(#about:hover) .st-about {
+  --lit: 1;
+}
