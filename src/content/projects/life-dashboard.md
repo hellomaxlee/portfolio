@@ -3,8 +3,15 @@ title: Life Dashboard
 kind: built
 order: 3
 full: true
-image: life-dashboard-screens.png
-imageAlt: "Six pixel-art dashboard screens: today's sleep and workout, the weather, the week's workouts drawn as planets, a moon over water, a bookshelf, and a workout celebration."
+panels:
+  - { src: life-dashboard/today.png, alt: "Today: 7.4 hours of sleep, workout done, 8,412 steps" }
+  - { src: life-dashboard/weather.png, alt: "Weather: 57 degrees and cloudy, with an hourly forecast" }
+  - { src: life-dashboard/week.png, alt: "Week: two of three workouts, drawn as planets" }
+  - { src: life-dashboard/month.png, alt: "Month: a calendar coloured by each day's wins" }
+  - { src: life-dashboard/moon.png, alt: "A monthly feature page: the moon over water" }
+  - { src: life-dashboard/books.png, alt: "Books: a shelf showing 3 of 12 read this year" }
+  - { src: life-dashboard/sun.png, alt: "A sun with a check mark, part of the workout celebration" }
+  - { src: life-dashboard/done.png, alt: "Workout done, with sparkles" }
 links:
   - label: Code
     href: https://github.com/hellomaxlee/life-dashboard
