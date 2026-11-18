@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-18
+- Word vectors card: the description now says there is one model per president and what the app
+  returns for a word.
+
+## 2026-11-18
 - StationScope card: the description now mentions buses, ferries, and other local transit.
 
 ## 2026-11-18
