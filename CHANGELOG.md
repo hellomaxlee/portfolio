@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-18
+- A dashed branch of the side quests line now leads to Max's cooking account on Instagram, from
+  Stockholm on the hero map and from the top of the side quests list.
+
+## 2026-11-18
 - Word vectors card: the description now says there is one model per president and what the app
   returns for a word.
 

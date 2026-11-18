@@ -27,8 +27,13 @@
   45 degree bends with rounded corners. The text keeps one left edge; only the line and stations
   move. The line opens with a lead-in bend and closes with a terminus bar. An entry reached from
   the map (`:target`) fills its station in lake blue.
+- A thin dashed branch of the side-quest line leads to Max's cooking account on Instagram
+  (@byemaxlee; Max, 2026-11-18). It leaves the line at its origin in both places: Stockholm on the
+  hero map, and the top of the lead-in above the side-quest list. It is kept subtle: thinner than
+  the line, a smaller station, muted type, and no legend entry.
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
-- Self-contained: outside links are LinkedIn, GitHub, and Max's own apps only.
+- Self-contained: outside links are LinkedIn, GitHub, Max's own apps, his cooking account on
+  Instagram, and the organisations named in the work paragraph.
 - No client JavaScript. All motion is CSS and stops under `prefers-reduced-motion`.
 - The site is served from `/portfolio` on GitHub Pages; internal URLs use `BASE_URL`.

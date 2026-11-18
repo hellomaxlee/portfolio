@@ -20,8 +20,8 @@ goes in either: no unpublished projects, no personal commentary, no details that
 1. A visitor on a phone learns who Max is and what he does without scrolling.
 2. Software projects are cards and travel side quests are a short list, each led by one number
    and one or two plain sentences. The hero network map links to every one of them.
-3. The site is self-contained: the only outside links are LinkedIn, GitHub, and Max's own live
-   apps.
+3. The site is self-contained: the only outside links are LinkedIn, GitHub, Max's own live
+   apps, his cooking account on Instagram, and the organisations named in the work paragraph.
 4. The site builds from a clean clone with one command and deploys on push to `main`.
 5. Lighthouse scores 95 or higher on performance, accessibility, best practices, and SEO, on
    mobile, for every page.
