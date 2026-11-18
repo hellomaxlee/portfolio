@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-18
+- The cooking stop beside the side quests list now sits on top of its dashed line, like every
+  other station.
+
+## 2026-11-18
 - The dashed cooking branch is now a short fork with wider prongs and its own isolated stop: into
   the open space under the side quest stops on the hero map, and down the gap beside the side
   quests list.

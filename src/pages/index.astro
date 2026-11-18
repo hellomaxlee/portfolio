@@ -399,6 +399,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   .q-side::after {
     content: '';
     position: absolute;
+    z-index: 1;
     left: calc(var(--near) + 3.5rem - 0.3125rem);
     top: 0.3125rem;
     width: 0.625rem;
