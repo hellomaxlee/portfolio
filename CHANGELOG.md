@@ -2,6 +2,9 @@
 
 Newest first. One dated entry per push.
 
+## 2026-11-18
+- Side quests: a third sentence in the lead-in about taking the occasional unplanned trip.
+
 ## 2026-11-17
 - Side quests: the line now changes track between entries on 45 degree bends, starts with a
   lead-in curve, and ends in a terminus bar. A station fills in when its entry is opened from the
