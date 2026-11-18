@@ -164,38 +164,57 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     font-size: var(--step--1);
   }
 
-  /* The featured project: full width at every size, on its line's tint. */
+  /*
+    The featured project: on the sky ground, with a border in the three line colours
+    and a soft glow. Same size as its neighbour.
+  */
   .featured {
-    grid-column: 1 / -1;
-    padding: var(--space-6);
-    border-color: var(--line);
-    background: color-mix(in srgb, var(--line) 7%, var(--surface));
+    --line: var(--map-build);
+    --focus: var(--map-work);
+    border-color: transparent;
+    background:
+      linear-gradient(var(--sky), var(--sky)) padding-box,
+      linear-gradient(115deg, var(--map-build), var(--map-work) 50%, var(--map-quest)) border-box;
+    color: var(--on-sky);
+    box-shadow:
+      0 0 2.5rem -0.75rem color-mix(in srgb, var(--map-work) 45%, transparent),
+      0 1.25rem 3rem -1.25rem color-mix(in srgb, var(--map-build) 60%, transparent);
+    transition: box-shadow 0.3s ease;
   }
 
-  .featured h3 {
-    font-family: var(--font-display);
-    font-size: var(--step-2);
-    font-weight: 400;
-    letter-spacing: -0.01em;
+  .featured:hover,
+  .featured:target {
+    border-color: transparent;
+    box-shadow:
+      0 0 3.25rem -0.5rem color-mix(in srgb, var(--map-work) 60%, transparent),
+      0 1.5rem 3.5rem -1rem color-mix(in srgb, var(--map-build) 75%, transparent);
   }
 
-  .featured .blurb {
-    font-size: var(--step-1);
-    line-height: 1.5;
-    max-width: 44rem;
+  .featured h3::before {
+    border-color: var(--on-sky);
+    background: var(--sky);
   }
 
-  .featured .links {
-    font-size: var(--step-0);
+  .featured .label {
+    color: var(--on-sky-muted);
   }
 
-  @media (max-width: 40rem) {
+  .featured .links a {
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: var(--on-sky);
+    color: var(--sky);
+    text-decoration: none;
+  }
+
+  .featured .links a:hover {
+    background: var(--map-work);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     .featured {
-      padding: var(--space-5);
-    }
-
-    .featured .blurb {
-      font-size: var(--step-0);
+      transition: none;
     }
   }
 
@@ -204,10 +223,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   @media (min-width: 56rem) {
-    .full {
+    .full:has(.screens) {
       grid-template-columns: minmax(0, 1fr) 24.5rem;
       gap: var(--space-6);
     }
+  }
+
+  .full .blurb {
+    max-width: 44rem;
   }
 
   @media (prefers-reduced-motion: reduce) {

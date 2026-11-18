@@ -88,7 +88,6 @@ a:hover {
 /* Hovering or focusing a project lights its station on the hero map. */
 body:has(#stationscope:is(:hover, :focus-within)) .st-stationscope,
 body:has(#life-dashboard:is(:hover, :focus-within)) .st-life-dashboard,
-body:has(#rules-bots:is(:hover, :focus-within)) .st-rules-bots,
 body:has(#presidential-skipgram:is(:hover, :focus-within)) .st-presidential-skipgram,
 body:has(#european-excursions:hover) .st-european-excursions,
 body:has(#amtrak:hover) .st-amtrak,

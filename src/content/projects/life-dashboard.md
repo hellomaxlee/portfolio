@@ -1,7 +1,7 @@
 ---
 title: Life Dashboard
 kind: built
-order: 4
+order: 3
 full: true
 image: life-dashboard-screens.png
 imageAlt: "Three pixel-art dashboard screens: today's sleep and workout, the weather, and a moon over water."
