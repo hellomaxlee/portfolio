@@ -1,0 +1,28 @@
+# portfolio: Project Notes
+
+## Sources
+- Max's public LinkedIn profile: the career facts.
+- Max's public GitHub repositories: every project description.
+- Max's own travel write-ups: every side-quest number.
+
+## Critical assumptions
+- Every number on the page traces to one of the sources above. Where two sources disagreed the
+  number was left out.
+- Only public projects are shown.
+- Map interchanges are true by place: Stockholm (semester abroad, European Excursions),
+  Washington (a summer at the CFPB, the Smithsonian visits), New York (work, StationScope,
+  Hide and Seek). The map carries no dates.
+- The Life Dashboard strip is rendered from that project's sample fixture, not from real data.
+- The portrait is Max's GitHub profile picture, copied to `public/max.jpg`.
+
+## Design decisions
+- A quiet editorial page. Newsreader for headings and numerals, Instrument Sans for text.
+- One indigo ground carries the hero and footer. A three-line network map (work, things built,
+  side quests) is the single themed element, and the quest line continues down the side-quest list.
+- Colour roles: gold, coral, and teal are the Life Dashboard's hues. Gold is never text on paper.
+  The gold section swatch on paper is 1.92:1; it is decorative and its ink ring carries the mark.
+- Only cards whose number says something carry one. StationScope is the featured card.
+- Career appears as two short paragraphs, not a list. The employer is named once.
+- Self-contained: outside links are LinkedIn, GitHub, and Max's own apps only.
+- No client JavaScript. All motion is CSS and stops under `prefers-reduced-motion`.
+- The site is served from `/portfolio` on GitHub Pages; internal URLs use `BASE_URL`.
