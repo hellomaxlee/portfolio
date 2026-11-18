@@ -23,6 +23,10 @@
   Wheat, terracotta, and lake blue for the three lines on pine green; cream paper and bark ink.
   All text pairs measure 4.8:1 or better. The wheat section swatch on paper is 2.4:1; it is
   decorative and its ink ring carries the mark.
+- The side-quest line runs on two tracks and changes track between entries, using the hero map's
+  45 degree bends with rounded corners. The text keeps one left edge; only the line and stations
+  move. The line opens with a lead-in bend and closes with a terminus bar. An entry reached from
+  the map (`:target`) fills its station in lake blue.
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, and Max's own apps only.
