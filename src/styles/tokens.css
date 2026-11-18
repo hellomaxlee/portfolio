@@ -1,29 +1,30 @@
 /*
   Design tokens. Roles before values.
-  Base: paper, ink, muted, rule. Sky: one deep indigo ground for the hero map.
-  Lines: work (gold), build (coral), quest (teal). The hues are the Life Dashboard's
-  GOLD, CORAL, and TEAL. --map-* are the values used on the sky; --line-* on paper.
+  Base: paper, ink, muted, rule, in warm cream and bark tones.
+  Ground (--sky): one deep pine green for the hero, the footer, and the featured card.
+  Lines: work (wheat), build (terracotta), quest (lake blue).
+  --map-* are the values used on the pine ground; --line-* are the values used on paper.
 */
 :root {
   color-scheme: light dark;
 
-  --bg: #f6f4ee;
-  --surface: #ffffff;
-  --ink: #1a1d33;
-  --muted: #5a5f77;
-  --rule: #e2ded3;
+  --bg: #f5f1e6;
+  --surface: #fffdf7;
+  --ink: #232d27;
+  --muted: #57665b;
+  --rule: #ddd7c5;
 
-  --sky: #191861;
-  --on-sky: #f2f0e9;
-  --on-sky-muted: #a8b6df;
+  --sky: #1f3d31;
+  --on-sky: #f4f0e3;
+  --on-sky-muted: #b9cbb7;
 
-  --map-work: #ffc828;
-  --map-build: #ff5a50;
-  --map-quest: #28dcc8;
+  --map-work: #ecbd4f;
+  --map-build: #f0906c;
+  --map-quest: #93d2e2;
 
-  --line-work: #e3a900;
-  --line-build: #d63c30;
-  --line-quest: #0a8a7c;
+  --line-work: #c9962b;
+  --line-build: #b04a28;
+  --line-quest: #2a6b82;
   --on-line: #ffffff;
   --led-ground: #14110a;
   --focus: var(--ink);
@@ -53,15 +54,15 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #07091a;
-    --surface: #0f1225;
-    --ink: #ebebf5;
-    --muted: #9da3be;
-    --rule: #272c44;
+    --bg: #0f1712;
+    --surface: #17211a;
+    --ink: #ecebe0;
+    --muted: #a3b1a4;
+    --rule: #2a372d;
 
-    --line-work: #ffc828;
-    --line-build: #ff5a50;
-    --line-quest: #28dcc8;
-    --on-line: #07091a;
+    --line-work: #ecbd4f;
+    --line-build: #f0906c;
+    --line-quest: #93d2e2;
+    --on-line: #0f1712;
   }
 }

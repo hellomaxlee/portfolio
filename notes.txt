@@ -17,10 +17,12 @@
 
 ## Design decisions
 - A quiet editorial page. Newsreader for headings and numerals, Instrument Sans for text.
-- One indigo ground carries the hero and footer. A three-line network map (work, things built,
+- One deep pine-green ground carries the hero, the footer, and the featured card. A three-line network map (work, things built,
   side quests) is the single themed element, and the quest line continues down the side-quest list.
-- Colour roles: gold, coral, and teal are the Life Dashboard's hues. Gold is never text on paper.
-  The gold section swatch on paper is 1.92:1; it is decorative and its ink ring carries the mark.
+- Colour: nature tones (Max, 2026-11-17: the indigo and neon set read as a default template).
+  Wheat, terracotta, and lake blue for the three lines on pine green; cream paper and bark ink.
+  All text pairs measure 4.8:1 or better. The wheat section swatch on paper is 2.4:1; it is
+  decorative and its ink ring carries the mark.
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, and Max's own apps only.
