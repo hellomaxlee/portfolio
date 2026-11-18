@@ -3,6 +3,9 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-18
+- Work paragraph: the cases are now described as complex litigation cases.
+
+## 2026-11-18
 - Side quests: a third sentence in the lead-in about taking the occasional unplanned trip.
 
 ## 2026-11-17
