@@ -3,6 +3,9 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-20
+- European Excursions: the travel is now described as budget travel.
+
+## 2026-11-20
 - Removed the cooking fork and its Instagram link from the hero map and the side quests list.
 
 ## 2026-11-19
