@@ -424,6 +424,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         background-color 0.3s ease,
         border-width 0.3s ease;
     }
+
+    /* One ring leaves the station once the page has scrolled to it. */
+    .quests li:target::before,
+    .section:target .swatch::after {
+      animation: arrive 0.9s ease-out 0.6s 2;
+    }
+  }
+
+  @keyframes arrive {
+    from {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--line) 70%, transparent);
+    }
+    to {
+      box-shadow: 0 0 0 0.875rem transparent;
+    }
   }
 
   .quests li + li::after {

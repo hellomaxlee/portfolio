@@ -41,6 +41,12 @@
   capstone video is unlisted and is not linked.
 - The side-quest line starts at Summer in the Woods. The dashed fork to Max's cooking account was
   removed (Max, 2026-11-20: it read as out of place); the page no longer links to Instagram.
+- Arriving at an entry from the map (`:target`) plays a short arrival signal: two rings in the
+  line colour leave the side-quest station, the card's edge, or the Work heading's station, then
+  stop (Max, 2026-11-20). It waits 0.6 s so the smooth scroll lands first, and does not run under
+  `prefers-reduced-motion`.
+- On the wide map the Summer in the Woods stop is raised and Hamilton College lowered so their
+  labels do not crowd each other (Max, 2026-11-20).
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, Max's own apps, and the

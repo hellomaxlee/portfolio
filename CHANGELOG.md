@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-20
+- Wide hero map: Summer in the Woods and Hamilton College sit further apart. Arriving at an entry
+  from the map now sends two soft rings out from its station or card.
+
+## 2026-11-20
 - A Summer in the Woods: "mostly alone" is now "alone".
 
 ## 2026-11-20

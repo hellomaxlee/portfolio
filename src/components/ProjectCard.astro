@@ -205,4 +205,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       transition: none;
     }
   }
+
+  /* Arriving from the map: one ring leaves the card's edge, then it rests. */
+  @media (prefers-reduced-motion: no-preference) {
+    .card:target {
+      animation: card-arrive 0.9s ease-out 0.6s 2;
+    }
+  }
+
+  @keyframes card-arrive {
+    from {
+      outline: 2px solid var(--line);
+      outline-offset: 0;
+    }
+    to {
+      outline: 2px solid transparent;
+      outline-offset: 0.75rem;
+    }
+  }
 </style>
