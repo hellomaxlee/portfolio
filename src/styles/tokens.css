@@ -37,8 +37,8 @@
   --led-ground: #14110a;
   --focus: var(--ink);
 
-  --font-display: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
-  --font-text: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-text: 'IBM Plex Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-text);
 
   --step--1: 0.875rem;
   --step-0: 1.0625rem;

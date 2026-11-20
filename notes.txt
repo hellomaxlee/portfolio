@@ -17,7 +17,10 @@
 - The portrait is Max's GitHub profile picture, copied to `public/max.jpg`.
 
 ## Design decisions
-- A quiet editorial page. Newsreader for headings and numerals, Instrument Sans for text.
+- A quiet editorial page set in one family, IBM Plex Sans (Max, 2026-11-20: the serif headings
+  read as professional but not as him; he wanted something cleaner, square, and modern, academic
+  without being bookish). Headings are weight 500 with slightly tight tracking, entry titles 600,
+  and the large numbers weight 300, so the hierarchy holds without a second family.
 - One calm dark ground (pine green by default) carries the hero, the footer, and the featured card. A three-line network map (work, things built,
   side quests) is the single themed element, and the quest line continues down the side-quest list.
 - Colour: nature tones (Max, 2026-11-17: the indigo and neon set read as a default template).

@@ -32,8 +32,8 @@ or delays reading. Subtle CSS animation is welcome.
 
 ## Stack
 TypeScript · Astro 7 (static output) · plain CSS with custom properties · bun · GitHub Pages
-- Fonts are self-hosted through Fontsource: Newsreader Variable (headings and numerals) and
-  Instrument Sans Variable (text and map labels). Sentence case everywhere; no all-caps, no mono.
+- The font is self-hosted through Fontsource: IBM Plex Sans Variable, for everything. Hierarchy
+  comes from weight and size. Sentence case everywhere; no all-caps, no mono.
 - Astro runs on the bun runtime (`bunx --bun astro`), because the local Node is older than Astro 7
   accepts. The package scripts already do this.
 - Astro over Next.js: the site is content, not an app. Pages ship as HTML with no client
@@ -84,7 +84,7 @@ Rules that outrank any design idea or feature request.
   the page complete and readable when it does not run.
 - **No tracking.** No cookies, no third-party scripts, no pixels. If analytics is ever wanted, it
   is cookieless and Max asks for it.
-- **Restraint.** Two type families, one colour per line, taken from the checked
+- **Restraint.** One type family, one colour per line, taken from the checked
   tone sets listed in `notes.txt` (the default is work wheat, build terracotta, quest lake blue),
   one calm dark ground for the hero, footer, and featured card (pine green by default, or one of
   the measured grounds in `notes.txt`), one layout width. A new

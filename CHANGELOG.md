@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-20
+- Typeface: IBM Plex Sans throughout, replacing Newsreader and Instrument Sans. Heading weights
+  and tracking retuned.
+
+## 2026-11-20
 - The ground colour of the hero, footer, and featured card now changes on each page load, from
   six calm colours, each paired with the line palettes that suit it.
 
