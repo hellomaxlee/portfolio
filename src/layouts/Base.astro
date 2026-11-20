@@ -29,19 +29,43 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonical} />
     <meta name="theme-color" content="#1f3d31" />
     <script is:inline>
-      // The one script on the site: pick a line palette for this load, never the last one shown.
+      // The one script on the site: give the three lines a palette for this load.
+      // Each row is a set of tones checked together in notes.txt; 0 keeps the default colours.
       (() => {
-        const all = ['', 'heather', 'dusk', 'shore'];
-        let last = null;
+        const sets = [
+          0,
+          'apricot lavender mint',
+          'butter rose lavender',
+          'rose sand periwinkle',
+          'wheat lavender mint',
+          'wheat seafoam iris',
+          'terracotta aqua iris',
+          'coral ice iris',
+          'peach lake iris',
+          'marigold mint iris',
+          'straw rose periwinkle',
+          'cream aqua iris',
+          'terracotta lavender ice',
+          'butter lake iris',
+        ];
+        const roll = (n) => Math.floor(Math.random() * n);
+        let last = -1;
         try {
-          last = sessionStorage.getItem('palette');
+          last = Number(sessionStorage.getItem('palette') ?? -1);
         } catch {}
-        const rest = all.filter((name) => name !== last);
-        const pick = rest[Math.floor(Math.random() * rest.length)];
-        if (pick) document.documentElement.dataset.palette = pick;
+        let pick = roll(last < 0 ? sets.length : sets.length - 1);
+        if (last >= 0 && pick >= last) pick += 1;
         try {
           sessionStorage.setItem('palette', pick);
         } catch {}
+        if (!sets[pick]) return;
+        const tones = sets[pick].split(' ');
+        for (const line of ['work', 'build', 'quest']) {
+          const tone = tones.splice(roll(tones.length), 1)[0];
+          const root = document.documentElement.style;
+          root.setProperty('--map-' + line, 'var(--tone-' + tone + ')');
+          root.setProperty('--paper-' + line, 'var(--tone-' + tone + '-ink)');
+        }
       })();
     </script>
     <slot name="head" />

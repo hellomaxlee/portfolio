@@ -52,13 +52,19 @@
 - Self-contained: outside links are LinkedIn, GitHub, Max's own apps, and the
   organisations named in the work paragraph.
 - The three line colours change on each page load (Max, 2026-11-20). A short inline script in the
-  document head picks one of four fixed palettes before first paint and never repeats the last
-  one shown in that tab (it keeps the name in `sessionStorage`; nothing is sent anywhere). The
-  palettes are the default (wheat, terracotta, lake blue), heather (apricot, lavender, mint),
-  dusk (butter, rose, lavender), and shore (sky, sand, rose). They were chosen by measurement,
-  not at random: every line colour is 4.9:1 or better on the pine ground and 6.8:1 or better on
-  the dark page, every page colour in the three added palettes is 4.6:1 or better on cream, and
-  in each palette the three colours stay apart (CIELAB distance 21 or more) under simulated
-  deuteranopia, protanopia, and tritanopia. With scripts off the page shows the default palette.
+  document head assigns the lines their colours before first paint and never repeats the last
+  set shown in that tab (it keeps the set's number in `sessionStorage`; nothing is sent anywhere).
+  With scripts off the page shows the default palette.
+- The colours are not random. There are 19 tones in `tokens.css`, each with a value for the pine
+  ground and a darker ink for the cream page, and 13 sets of three that were measured together:
+  apricot lavender mint; butter rose lavender; rose sand periwinkle; wheat lavender mint; wheat
+  seafoam iris; terracotta aqua iris; coral ice iris; peach lake iris; marigold mint iris; straw
+  rose periwinkle; cream aqua iris; terracotta lavender ice; butter lake iris. The script picks a
+  set and deals its three tones to the lines in any order, so with the default there are 79
+  combinations. Measured: every tone is 4.9:1 or better on the pine ground and 6.8:1 or better
+  on the dark page, every ink is 4.6:1 or better on cream, and within each set the three colours
+  stay apart (CIELAB distance 22 or more) under simulated deuteranopia, protanopia, and
+  tritanopia. Most sets carry a purple because that is what stays distinct from a warm tone and a
+  blue-green under red-green colour blindness. A new set must pass the same checks.
 - No other client JavaScript. All motion is CSS and stops under `prefers-reduced-motion`.
 - The site is served from `/portfolio` on GitHub Pages; internal URLs use `BASE_URL`.

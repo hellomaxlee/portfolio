@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-20
+- Line colours: 13 checked sets of three tones, dealt to the lines in any order, for 79
+  combinations in place of four palettes.
+
+## 2026-11-20
 - The three line colours now change on each page load, chosen from four contrast-checked
   palettes by a short inline script. With scripts off the page keeps the original colours.
 

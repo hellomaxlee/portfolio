@@ -4,8 +4,9 @@
   Ground (--sky): one deep pine green for the hero, the footer, and the featured card.
   Lines: work, build, quest. Each palette gives a line two values: --map-* for the pine ground
   (and the dark theme), --paper-* for the cream page. --line-* picks between them by theme.
-  The default palette is wheat, terracotta, lake blue; the others are chosen per page load by
-  the script in Base.astro. Every --paper-* in an added palette is 4.6:1 or better on --bg.
+  The default palette is wheat, terracotta, lake blue; on each page load the script in
+  Base.astro may point the lines at three of the --tone-* colours at the end of this file.
+  Every --tone-*-ink is 4.6:1 or better on --bg.
 */
 :root {
   color-scheme: light dark;
@@ -73,32 +74,48 @@
   }
 }
 
-/* Apricot, lavender, mint. */
-:root[data-palette='heather'] {
-  --map-work: #f4b27a;
-  --map-build: #bfaef2;
-  --map-quest: #8edcc6;
-  --paper-work: #976032;
-  --paper-build: #7458c7;
-  --paper-quest: #287861;
-}
-
-/* Butter, rose, lavender. */
-:root[data-palette='dusk'] {
-  --map-work: #f2dc7e;
-  --map-build: #ee9db4;
-  --map-quest: #bfaef2;
-  --paper-work: #7b6b29;
-  --paper-build: #bc3f62;
-  --paper-quest: #7458c7;
-}
-
-/* Sky, sand, rose. */
-:root[data-palette='shore'] {
-  --map-work: #a9c9f2;
-  --map-build: #e8d6a4;
-  --map-quest: #ee9db4;
-  --paper-work: #3a6eaf;
-  --paper-build: #816a2b;
-  --paper-quest: #bc3f62;
+/*
+  Tones for the rotating line palettes. Each has a value for the pine ground and the dark page,
+  and an -ink value for the cream page. The script in Base.astro assigns three of them to the
+  lines on each page load.
+*/
+:root {
+  --tone-apricot: #f4b27a;
+  --tone-apricot-ink: #976032;
+  --tone-aqua: #7fd6d8;
+  --tone-aqua-ink: #287779;
+  --tone-butter: #f2dc7e;
+  --tone-butter-ink: #7b6b29;
+  --tone-coral: #f59a8c;
+  --tone-coral-ink: #b44c3c;
+  --tone-cream: #f1e6c4;
+  --tone-cream-ink: #7f6b2a;
+  --tone-ice: #c4e6ee;
+  --tone-ice-ink: #2d7586;
+  --tone-iris: #a99cf0;
+  --tone-iris-ink: #6c5bc8;
+  --tone-lake: #93d2e2;
+  --tone-lake-ink: #2d7486;
+  --tone-lavender: #bfaef2;
+  --tone-lavender-ink: #7458c7;
+  --tone-marigold: #f5a742;
+  --tone-marigold-ink: #8d642f;
+  --tone-mint: #8edcc6;
+  --tone-mint-ink: #287861;
+  --tone-peach: #f6c3a0;
+  --tone-peach-ink: #9b5d34;
+  --tone-periwinkle: #a8b4f5;
+  --tone-periwinkle-ink: #5365c6;
+  --tone-rose: #ee9db4;
+  --tone-rose-ink: #bc3f62;
+  --tone-sand: #e8d6a4;
+  --tone-sand-ink: #816a2b;
+  --tone-seafoam: #a6e3cf;
+  --tone-seafoam-ink: #297a5f;
+  --tone-straw: #e6cf6a;
+  --tone-straw-ink: #7b6c29;
+  --tone-terracotta: #f0906c;
+  --tone-terracotta-ink: #a65637;
+  --tone-wheat: #ecbd4f;
+  --tone-wheat-ink: #83692c;
 }

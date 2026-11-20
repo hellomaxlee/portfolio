@@ -84,9 +84,9 @@ Rules that outrank any design idea or feature request.
   the page complete and readable when it does not run.
 - **No tracking.** No cookies, no third-party scripts, no pixels. If analytics is ever wanted, it
   is cookieless and Max asks for it.
-- **Restraint.** Two type families, one colour per line, taken from one of the four
-  palettes in `tokens.css` (the default is work wheat, build terracotta, quest lake blue), one
-  pine-green ground for the hero, footer, and featured card, one layout width. A new
+- **Restraint.** Two type families, one colour per line, taken from the checked
+  tone sets listed in `notes.txt` (the default is work wheat, build terracotta, quest lake blue),
+  one pine-green ground for the hero, footer, and featured card, one layout width. A new
   colour needs a job; a new visual element needs a reason a visitor would notice.
 
 ## Working Rules
