@@ -1,6 +1,7 @@
 ---
 title: Every Open Smithsonian
 kind: quest
+side: left
 stat: "14"
 statLabel: Smithsonian museums
 order: 4

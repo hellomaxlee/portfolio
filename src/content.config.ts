@@ -10,6 +10,7 @@ const projects = defineCollection({
     stat: z.string().optional(),
     statLabel: z.string().optional(),
     order: z.number(),
+    side: z.enum(['left', 'right']).default('right'),
     featured: z.boolean().default(false),
     full: z.boolean().default(false),
     panels: z.array(z.object({ src: z.string(), alt: z.string() })).default([]),

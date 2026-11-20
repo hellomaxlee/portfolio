@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-19
+- New first side quest, A Summer in the Woods, with its own station on the hero map. The cooking
+  fork now leaves the line there. Wide screens: entries are split left and right for even columns.
+
+## 2026-11-19
 - Side quests on wide screens: entries now alternate left and right of the line, filling the empty
   column under the heading and shortening the section. Phones keep the single column.
 

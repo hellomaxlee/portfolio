@@ -4,6 +4,7 @@
 - Max's public LinkedIn profile: the career facts.
 - Max's public GitHub repositories: every project description.
 - Max's own travel write-ups: every side-quest number.
+- Max's 2022 capstone script for his summer at the Rhode Island refuges: Summer in the Woods.
 
 ## Critical assumptions
 - Every number on the page traces to one of the sources above. Where two sources disagreed the
@@ -39,10 +40,16 @@
 - Vertical rhythm is tight (Max, 2026-11-19: too much white space). The gap between sections is
   `--space-8`, 40 px on a phone rising to 72 px on a wide screen; spacing inside sections is
   unchanged.
-- On wide screens (56rem and up) the side-quest entries alternate either side of the line: odd
-  entries to the right, even entries to the left with right-aligned text, each station on the
-  track nearest its entry (Max, 2026-11-19: the column under the heading was empty). It is built
-  with CSS subgrid; browsers without subgrid, and phones, keep the single column.
+- On wide screens (56rem and up) the side-quest entries sit either side of the line (Max,
+  2026-11-19: the column under the heading was empty). Each entry's `side` is set in its file and
+  defaults to right; Holland and the Smithsonian are on the left, with right-aligned text, because
+  that split leaves the two columns closest to even. Each station is on the track nearest its
+  entry. It is built with CSS subgrid; browsers without subgrid, and phones, keep one column.
+- "A Summer in the Woods" is the first side quest. It is told as a side quest, not as work
+  experience: the house in the woods, the trail, the books, the oatmeal (Max, 2026-11-19). The
+  capstone video is unlisted and is not linked.
+- The side-quest line now starts at Summer in the Woods, and the cooking fork leaves it there, so
+  cooking comes before every stop.
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, Max's own apps, his cooking account on
