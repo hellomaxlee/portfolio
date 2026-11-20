@@ -2,6 +2,9 @@
 
 Newest first. One dated entry per push.
 
+## 2026-11-19
+- Tighter vertical spacing: less space between sections, under the hero, and in the footer.
+
 ## 2026-11-18
 - Side quests list: the cooking fork has rounder bends and now turns left under the intro, ending
   beside a label on the column's left edge.

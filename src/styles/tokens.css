@@ -45,7 +45,7 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
-  --space-8: clamp(4rem, 3rem + 5vw, 7rem);
+  --space-8: clamp(2.5rem, 1.75rem + 3.2vw, 4.5rem);
 
   --width: 70rem;
   --gutter: clamp(1.125rem, 0.5rem + 2.5vw, 2rem);

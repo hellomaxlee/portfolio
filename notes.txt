@@ -36,6 +36,9 @@
   intro, ending at a stop whose label keeps the column's left edge; on a phone, where there is no
   room to the left, it sits in the row above the list. No photo: thumbnails were tried and were
   louder than the entries around them.
+- Vertical rhythm is tight (Max, 2026-11-19: too much white space). The gap between sections is
+  `--space-8`, 40 px on a phone rising to 72 px on a wide screen; spacing inside sections is
+  unchanged.
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, Max's own apps, his cooking account on
