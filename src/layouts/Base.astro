@@ -28,6 +28,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="theme-color" content="#1f3d31" />
+    <script is:inline>
+      // The one script on the site: pick a line palette for this load, never the last one shown.
+      (() => {
+        const all = ['', 'heather', 'dusk', 'shore'];
+        let last = null;
+        try {
+          last = sessionStorage.getItem('palette');
+        } catch {}
+        const rest = all.filter((name) => name !== last);
+        const pick = rest[Math.floor(Math.random() * rest.length)];
+        if (pick) document.documentElement.dataset.palette = pick;
+        try {
+          sessionStorage.setItem('palette', pick);
+        } catch {}
+      })();
+    </script>
     <slot name="head" />
   </head>
   <body>

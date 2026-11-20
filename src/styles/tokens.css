@@ -2,8 +2,10 @@
   Design tokens. Roles before values.
   Base: paper, ink, muted, rule, in warm cream and bark tones.
   Ground (--sky): one deep pine green for the hero, the footer, and the featured card.
-  Lines: work (wheat), build (terracotta), quest (lake blue).
-  --map-* are the values used on the pine ground; --line-* are the values used on paper.
+  Lines: work, build, quest. Each palette gives a line two values: --map-* for the pine ground
+  (and the dark theme), --paper-* for the cream page. --line-* picks between them by theme.
+  The default palette is wheat, terracotta, lake blue; the others are chosen per page load by
+  the script in Base.astro. Every --paper-* in an added palette is 4.6:1 or better on --bg.
 */
 :root {
   color-scheme: light dark;
@@ -22,9 +24,13 @@
   --map-build: #f0906c;
   --map-quest: #93d2e2;
 
-  --line-work: #c9962b;
-  --line-build: #b04a28;
-  --line-quest: #2a6b82;
+  --paper-work: #c9962b;
+  --paper-build: #b04a28;
+  --paper-quest: #2a6b82;
+
+  --line-work: var(--paper-work);
+  --line-build: var(--paper-build);
+  --line-quest: var(--paper-quest);
   --on-line: #ffffff;
   --led-ground: #14110a;
   --focus: var(--ink);
@@ -60,9 +66,39 @@
     --muted: #a3b1a4;
     --rule: #2a372d;
 
-    --line-work: #ecbd4f;
-    --line-build: #f0906c;
-    --line-quest: #93d2e2;
+    --line-work: var(--map-work);
+    --line-build: var(--map-build);
+    --line-quest: var(--map-quest);
     --on-line: #0f1712;
   }
+}
+
+/* Apricot, lavender, mint. */
+:root[data-palette='heather'] {
+  --map-work: #f4b27a;
+  --map-build: #bfaef2;
+  --map-quest: #8edcc6;
+  --paper-work: #976032;
+  --paper-build: #7458c7;
+  --paper-quest: #287861;
+}
+
+/* Butter, rose, lavender. */
+:root[data-palette='dusk'] {
+  --map-work: #f2dc7e;
+  --map-build: #ee9db4;
+  --map-quest: #bfaef2;
+  --paper-work: #7b6b29;
+  --paper-build: #bc3f62;
+  --paper-quest: #7458c7;
+}
+
+/* Sky, sand, rose. */
+:root[data-palette='shore'] {
+  --map-work: #a9c9f2;
+  --map-build: #e8d6a4;
+  --map-quest: #ee9db4;
+  --paper-work: #3a6eaf;
+  --paper-build: #816a2b;
+  --paper-quest: #bc3f62;
 }

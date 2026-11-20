@@ -27,7 +27,7 @@ goes in either: no unpublished projects, no personal commentary, no details that
    mobile, for every page.
 
 **Non-goals:** a blog engine or CMS; comments; user accounts; a backend or database; analytics that
-set cookies; client-side JavaScript; a component library; a resume-style experience list; animation that loops
+set cookies; client-side JavaScript beyond the palette picker; a component library; a resume-style experience list; animation that loops
 or delays reading. Subtle CSS animation is welcome.
 
 ## Stack
@@ -76,14 +76,17 @@ Rules that outrank any design idea or feature request.
 - **Accessible.** WCAG 2.2 AA: text contrast 4.5:1 or better, visible focus states, alt text on
   every meaningful image, full keyboard navigation, `prefers-reduced-motion` respected.
 - **Light and dark.** Both themes follow `prefers-color-scheme` and both pass the contrast rule.
-- **Fast.** The page ships no client JavaScript. Images are sized and compressed for their slot.
+- **Fast.** The page ships no client JavaScript, with one exception Max approved (2026-11-20): a
+  short inline script in `Base.astro` that picks the line palette for each page load. Nothing
+  else may be added to it. Images are sized and compressed for their slot.
   Fonts are self-hosted; no third-party font request.
 - **Motion is optional.** Every animation is CSS, sits behind `prefers-reduced-motion`, and leaves
   the page complete and readable when it does not run.
 - **No tracking.** No cookies, no third-party scripts, no pixels. If analytics is ever wanted, it
   is cookieless and Max asks for it.
-- **Restraint.** Two type families, one colour per line (work wheat, build terracotta, quest lake
-  blue), one pine-green ground for the hero, footer, and featured card, one layout width. A new
+- **Restraint.** Two type families, one colour per line, taken from one of the four
+  palettes in `tokens.css` (the default is work wheat, build terracotta, quest lake blue), one
+  pine-green ground for the hero, footer, and featured card, one layout width. A new
   colour needs a job; a new visual element needs a reason a visitor would notice.
 
 ## Working Rules

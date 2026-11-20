@@ -51,5 +51,14 @@
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, Max's own apps, and the
   organisations named in the work paragraph.
-- No client JavaScript. All motion is CSS and stops under `prefers-reduced-motion`.
+- The three line colours change on each page load (Max, 2026-11-20). A short inline script in the
+  document head picks one of four fixed palettes before first paint and never repeats the last
+  one shown in that tab (it keeps the name in `sessionStorage`; nothing is sent anywhere). The
+  palettes are the default (wheat, terracotta, lake blue), heather (apricot, lavender, mint),
+  dusk (butter, rose, lavender), and shore (sky, sand, rose). They were chosen by measurement,
+  not at random: every line colour is 4.9:1 or better on the pine ground and 6.8:1 or better on
+  the dark page, every page colour in the three added palettes is 4.6:1 or better on cream, and
+  in each palette the three colours stay apart (CIELAB distance 21 or more) under simulated
+  deuteranopia, protanopia, and tritanopia. With scripts off the page shows the default palette.
+- No other client JavaScript. All motion is CSS and stops under `prefers-reduced-motion`.
 - The site is served from `/portfolio` on GitHub Pages; internal URLs use `BASE_URL`.
