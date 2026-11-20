@@ -3,6 +3,9 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-20
+- A Summer in the Woods: "mostly alone" is now "alone".
+
+## 2026-11-20
 - European Excursions: the travel is now described as budget travel.
 
 ## 2026-11-20
