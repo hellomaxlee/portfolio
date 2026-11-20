@@ -1,9 +1,13 @@
 /*
   Design tokens. Roles before values.
   Base: paper, ink, muted, rule, in warm cream and bark tones.
-  Ground (--sky): one deep pine green for the hero, the footer, and the featured card.
-  Lines: work (wheat), build (terracotta), quest (lake blue).
-  --map-* are the values used on the pine ground; --line-* are the values used on paper.
+  Ground (--sky): one calm dark colour for the hero, the footer, and the featured card. Pine
+  green is the default; the script may swap in one of the --ground-* colours.
+  Lines: work, build, quest. Each palette gives a line two values: --map-* for the pine ground
+  (and the dark theme), --paper-* for the cream page. --line-* picks between them by theme.
+  The default palette is wheat, terracotta, lake blue; on each page load the script in
+  Base.astro may point the lines at three of the --tone-* colours at the end of this file.
+  Every --tone-*-ink is 4.6:1 or better on --bg.
 */
 :root {
   color-scheme: light dark;
@@ -22,15 +26,19 @@
   --map-build: #f0906c;
   --map-quest: #93d2e2;
 
-  --line-work: #c9962b;
-  --line-build: #b04a28;
-  --line-quest: #2a6b82;
+  --paper-work: #c9962b;
+  --paper-build: #b04a28;
+  --paper-quest: #2a6b82;
+
+  --line-work: var(--paper-work);
+  --line-build: var(--paper-build);
+  --line-quest: var(--paper-quest);
   --on-line: #ffffff;
   --led-ground: #14110a;
   --focus: var(--ink);
 
-  --font-display: 'Newsreader Variable', 'Iowan Old Style', Georgia, serif;
-  --font-text: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-text: 'IBM Plex Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-text);
 
   --step--1: 0.875rem;
   --step-0: 1.0625rem;
@@ -45,7 +53,7 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
-  --space-8: clamp(4rem, 3rem + 5vw, 7rem);
+  --space-8: clamp(2.5rem, 1.75rem + 3.2vw, 4.5rem);
 
   --width: 70rem;
   --gutter: clamp(1.125rem, 0.5rem + 2.5vw, 2rem);
@@ -60,9 +68,72 @@
     --muted: #a3b1a4;
     --rule: #2a372d;
 
-    --line-work: #ecbd4f;
-    --line-build: #f0906c;
-    --line-quest: #93d2e2;
+    --line-work: var(--map-work);
+    --line-build: var(--map-build);
+    --line-quest: var(--map-quest);
     --on-line: #0f1712;
   }
+}
+
+/*
+  Tones for the rotating line palettes. Each has a value for the pine ground and the dark page,
+  and an -ink value for the cream page. The script in Base.astro assigns three of them to the
+  lines on each page load.
+*/
+:root {
+  --tone-apricot: #f4b27a;
+  --tone-apricot-ink: #976032;
+  --tone-aqua: #7fd6d8;
+  --tone-aqua-ink: #287779;
+  --tone-butter: #f2dc7e;
+  --tone-butter-ink: #7b6b29;
+  --tone-coral: #f59a8c;
+  --tone-coral-ink: #b44c3c;
+  --tone-cream: #f1e6c4;
+  --tone-cream-ink: #7f6b2a;
+  --tone-ice: #c4e6ee;
+  --tone-ice-ink: #2d7586;
+  --tone-iris: #a99cf0;
+  --tone-iris-ink: #6c5bc8;
+  --tone-lake: #93d2e2;
+  --tone-lake-ink: #2d7486;
+  --tone-lavender: #bfaef2;
+  --tone-lavender-ink: #7458c7;
+  --tone-marigold: #f5a742;
+  --tone-marigold-ink: #8d642f;
+  --tone-mint: #8edcc6;
+  --tone-mint-ink: #287861;
+  --tone-peach: #f6c3a0;
+  --tone-peach-ink: #9b5d34;
+  --tone-periwinkle: #a8b4f5;
+  --tone-periwinkle-ink: #5365c6;
+  --tone-rose: #ee9db4;
+  --tone-rose-ink: #bc3f62;
+  --tone-sand: #e8d6a4;
+  --tone-sand-ink: #816a2b;
+  --tone-seafoam: #a6e3cf;
+  --tone-seafoam-ink: #297a5f;
+  --tone-straw: #e6cf6a;
+  --tone-straw-ink: #7b6c29;
+  --tone-terracotta: #f0906c;
+  --tone-terracotta-ink: #a65637;
+  --tone-wheat: #ecbd4f;
+  --tone-wheat-ink: #83692c;
+}
+
+/*
+  Grounds the script may use in place of pine. All sit at pine's luminance, so --on-sky and
+  every tone keep the contrast measured on pine. Each has its own muted text at 7:1.
+*/
+:root {
+  --ground-fjord: #1d3a47;
+  --ground-fjord-muted: #afcad7;
+  --ground-dusk: #2a3750;
+  --ground-dusk-muted: #bbc7dd;
+  --ground-plum: #45313f;
+  --ground-plum-muted: #d8c0d0;
+  --ground-bark: #453329;
+  --ground-bark-muted: #dac2b4;
+  --ground-slate: #30383f;
+  --ground-slate-muted: #bcc9d3;
 }

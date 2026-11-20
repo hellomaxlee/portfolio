@@ -2,6 +2,49 @@
 
 Newest first. One dated entry per push.
 
+## 2026-11-20
+- Typeface: IBM Plex Sans throughout, replacing Newsreader and Instrument Sans. Heading weights
+  and tracking retuned.
+
+## 2026-11-20
+- The ground colour of the hero, footer, and featured card now changes on each page load, from
+  six calm colours, each paired with the line palettes that suit it.
+
+## 2026-11-20
+- Line colours: 13 checked sets of three tones, dealt to the lines in any order, for 79
+  combinations in place of four palettes.
+
+## 2026-11-20
+- The three line colours now change on each page load, chosen from four contrast-checked
+  palettes by a short inline script. With scripts off the page keeps the original colours.
+
+## 2026-11-20
+- Wide hero map: Summer in the Woods and Hamilton College sit further apart. Arriving at an entry
+  from the map now sends two soft rings out from its station or card.
+
+## 2026-11-20
+- A Summer in the Woods: "mostly alone" is now "alone".
+
+## 2026-11-20
+- European Excursions: the travel is now described as budget travel.
+
+## 2026-11-20
+- Removed the cooking fork and its Instagram link from the hero map and the side quests list.
+
+## 2026-11-19
+- A Summer in the Woods: the summer is now given as 8 weeks.
+
+## 2026-11-19
+- New first side quest, A Summer in the Woods, with its own station on the hero map. The cooking
+  fork now leaves the line there. Wide screens: entries are split left and right for even columns.
+
+## 2026-11-19
+- Side quests on wide screens: entries now alternate left and right of the line, filling the empty
+  column under the heading and shortening the section. Phones keep the single column.
+
+## 2026-11-19
+- Tighter vertical spacing: less space between sections, under the hero, and in the footer.
+
 ## 2026-11-18
 - Side quests list: the cooking fork has rounder bends and now turns left under the intro, ending
   beside a label on the column's left edge.

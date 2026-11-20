@@ -1,6 +1,5 @@
 ---
-import '@fontsource-variable/newsreader/opsz.css';
-import '@fontsource-variable/instrument-sans/wght.css';
+import '@fontsource-variable/ibm-plex-sans/wght.css';
 import '../styles/tokens.css';
 import '../styles/global.css';
 
@@ -31,6 +30,71 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <slot name="head" />
   </head>
   <body>
+    <script is:inline>
+      // The one script on the site: give this load a ground colour and a line palette. It sits
+      // first in the body so the stylesheet is loaded and nothing has been painted yet.
+      // The grounds, the tone sets, and which sets suit which ground are measured in notes.txt.
+      (() => {
+        const sets = [
+          0, // the default wheat, terracotta, lake blue
+          'apricot lavender mint',
+          'butter rose lavender',
+          'rose sand periwinkle',
+          'wheat lavender mint',
+          'wheat seafoam iris',
+          'terracotta aqua iris',
+          'coral ice iris',
+          'peach lake iris',
+          'marigold mint iris',
+          'straw rose periwinkle',
+          'cream aqua iris',
+          'terracotta lavender ice',
+          'butter lake iris',
+        ];
+        const every = sets.map((_, i) => i);
+        // Each ground with the sets allowed on it; pine is the default and sets nothing.
+        const grounds = [
+          ['pine', every],
+          ['fjord', [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12]],
+          ['dusk', [0, 1, 2, 4, 12]],
+          ['plum', [0, 1, 4, 5, 6, 7, 8, 9, 11, 12, 13]],
+          ['bark', [2, 3, 4, 5, 8, 10, 11, 13]],
+          ['slate', every],
+        ];
+        const roll = (n) => Math.floor(Math.random() * n);
+        // A random item, skipping the one shown last time when there is another choice.
+        const fresh = (list, last) => {
+          const rest = list.filter((item) => item !== last);
+          return rest.length ? rest[roll(rest.length)] : list[0];
+        };
+        let last = [];
+        try {
+          last = (sessionStorage.getItem('palette') || '').split(',').map(Number);
+        } catch {}
+        const g = fresh(every.slice(0, grounds.length), last[0]);
+        const pick = fresh(grounds[g][1], last[1]);
+        try {
+          sessionStorage.setItem('palette', g + ',' + pick);
+        } catch {}
+
+        const root = document.documentElement.style;
+        if (g) {
+          const name = grounds[g][0];
+          root.setProperty('--sky', 'var(--ground-' + name + ')');
+          root.setProperty('--on-sky-muted', 'var(--ground-' + name + '-muted)');
+          const bar = document.querySelector('meta[name="theme-color"]');
+          if (bar) bar.content = getComputedStyle(document.documentElement).getPropertyValue('--sky').trim();
+        }
+        if (sets[pick]) {
+          const tones = sets[pick].split(' ');
+          for (const line of ['work', 'build', 'quest']) {
+            const tone = tones.splice(roll(tones.length), 1)[0];
+            root.setProperty('--map-' + line, 'var(--tone-' + tone + ')');
+            root.setProperty('--paper-' + line, 'var(--tone-' + tone + '-ink)');
+          }
+        }
+      })();
+    </script>
     <a class="skip" href="#main">Skip to content</a>
     <slot />
   </body>

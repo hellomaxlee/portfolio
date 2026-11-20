@@ -4,6 +4,7 @@
 - Max's public LinkedIn profile: the career facts.
 - Max's public GitHub repositories: every project description.
 - Max's own travel write-ups: every side-quest number.
+- Max's 2022 capstone script for his summer at the Rhode Island refuges: Summer in the Woods.
 
 ## Critical assumptions
 - Every number on the page traces to one of the sources above. Where two sources disagreed the
@@ -16,8 +17,11 @@
 - The portrait is Max's GitHub profile picture, copied to `public/max.jpg`.
 
 ## Design decisions
-- A quiet editorial page. Newsreader for headings and numerals, Instrument Sans for text.
-- One deep pine-green ground carries the hero, the footer, and the featured card. A three-line network map (work, things built,
+- A quiet editorial page set in one family, IBM Plex Sans (Max, 2026-11-20: the serif headings
+  read as professional but not as him; he wanted something cleaner, square, and modern, academic
+  without being bookish). Headings are weight 500 with slightly tight tracking, entry titles 600,
+  and the large numbers weight 300, so the hierarchy holds without a second family.
+- One calm dark ground (pine green by default) carries the hero, the footer, and the featured card. A three-line network map (work, things built,
   side quests) is the single themed element, and the quest line continues down the side-quest list.
 - Colour: nature tones (Max, 2026-11-17: the indigo and neon set read as a default template).
   Wheat, terracotta, and lake blue for the three lines on pine green; cream paper and bark ink.
@@ -27,18 +31,60 @@
   45 degree bends with rounded corners. The text keeps one left edge; only the line and stations
   move. The line opens with a lead-in bend and closes with a terminus bar. An entry reached from
   the map (`:target`) fills its station in lake blue.
-- A thin dashed fork of the side-quest line leads to Max's cooking account on Instagram
-  (@byemaxlee; Max, 2026-11-18). It is kept subtle: short, thinner than the line, a smaller
-  station, muted type, no legend entry, and an end of its own that touches no other line. On the
-  hero map it leaves Stockholm and ends in the open space under the side-quest stops (to the left
-  of the trunk on a phone). Beside the side-quest list it forks left at the top of the line,
-  drops down the gap between the columns, and turns left on a 45 degree bend to run under the
-  intro, ending at a stop whose label keeps the column's left edge; on a phone, where there is no
-  room to the left, it sits in the row above the list. No photo: thumbnails were tried and were
-  louder than the entries around them.
+- Vertical rhythm is tight (Max, 2026-11-19: too much white space). The gap between sections is
+  `--space-8`, 40 px on a phone rising to 72 px on a wide screen; spacing inside sections is
+  unchanged.
+- On wide screens (56rem and up) the side-quest entries sit either side of the line (Max,
+  2026-11-19: the column under the heading was empty). Each entry's `side` is set in its file and
+  defaults to right; Holland and the Smithsonian are on the left, with right-aligned text, because
+  that split leaves the two columns closest to even. Each station is on the track nearest its
+  entry. It is built with CSS subgrid; browsers without subgrid, and phones, keep one column.
+- "A Summer in the Woods" is the first side quest. It is told as a side quest, not as work
+  experience: the house in the woods, the trail, the books, the oatmeal (Max, 2026-11-19). The
+  capstone video is unlisted and is not linked.
+- The side-quest line starts at Summer in the Woods. The dashed fork to Max's cooking account was
+  removed (Max, 2026-11-20: it read as out of place); the page no longer links to Instagram.
+- Arriving at an entry from the map (`:target`) plays a short arrival signal: two rings in the
+  line colour leave the side-quest station, the card's edge, or the Work heading's station, then
+  stop (Max, 2026-11-20). It waits 0.6 s so the smooth scroll lands first, and does not run under
+  `prefers-reduced-motion`.
+- On the wide map the Summer in the Woods stop is raised and Hamilton College lowered so their
+  labels do not crowd each other (Max, 2026-11-20).
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
-- Self-contained: outside links are LinkedIn, GitHub, Max's own apps, his cooking account on
-  Instagram, and the organisations named in the work paragraph.
-- No client JavaScript. All motion is CSS and stops under `prefers-reduced-motion`.
+- Self-contained: outside links are LinkedIn, GitHub, Max's own apps, and the
+  organisations named in the work paragraph.
+- The three line colours change on each page load (Max, 2026-11-20). A short inline script in the
+  document head assigns the lines their colours before first paint and never repeats the last
+  set shown in that tab (it keeps the set's number in `sessionStorage`; nothing is sent anywhere).
+  With scripts off the page shows the default palette.
+- The colours are not random. There are 19 tones in `tokens.css`, each with a value for the pine
+  ground and a darker ink for the cream page, and 13 sets of three that were measured together:
+  apricot lavender mint; butter rose lavender; rose sand periwinkle; wheat lavender mint; wheat
+  seafoam iris; terracotta aqua iris; coral ice iris; peach lake iris; marigold mint iris; straw
+  rose periwinkle; cream aqua iris; terracotta lavender ice; butter lake iris. The script picks a
+  set and deals its three tones to the lines in any order, so with the default there are 79
+  combinations. Measured: every tone is 4.9:1 or better on the pine ground and 6.8:1 or better
+  on the dark page, every ink is 4.6:1 or better on cream, and within each set the three colours
+  stay apart (CIELAB distance 22 or more) under simulated deuteranopia, protanopia, and
+  tritanopia. Most sets carry a purple because that is what stays distinct from a warm tone and a
+  blue-green under red-green colour blindness. A new set must pass the same checks.
+- The ground colour changes on each page load too (Max, 2026-11-20: calm colours only, matched
+  to the line colours). The same script picks one of six grounds, never the one shown last, then
+  a tone set allowed on it. The grounds are pine #1f3d31 (the default), fjord #1d3a47, dusk
+  #2a3750, plum #45313f, bark #453329, and slate #30383f. All five new ones were built at pine's
+  luminance, so `--on-sky` text is 10.4:1 or better on each and every tone keeps the contrast it
+  has on pine (lowest 4.9:1). Each ground has its own muted text at 7:1. The page colours below
+  the hero stay fixed in both themes.
+- Pairing rule: a tone within 30 degrees of the ground's hue (OKLCH) is allowed only if it is
+  7.4:1 or better on it, the margin mint already has on pine, and a set may hold one such tone.
+  Slate is exempt as near neutral. Allowed sets: pine and slate take all 14; fjord takes all but
+  the default and the two lake sets; dusk takes the default, apricot lavender mint, butter rose
+  lavender, wheat lavender mint, and terracotta lavender ice; plum takes all but the three rose
+  sets; bark takes butter rose lavender, rose sand periwinkle, wheat lavender mint, wheat seafoam
+  iris, peach lake iris, straw rose periwinkle, cream aqua iris, and butter lake iris. That is 63
+  ground and set pairs and 358 combinations counting line order. Wine and moss grounds were
+  tried and rejected as too loud and too close to pine. The browser bar colour follows the
+  ground. The favicon stays pine and wheat.
+- No other client JavaScript. All motion is CSS and stops under `prefers-reduced-motion`.
 - The site is served from `/portfolio` on GitHub Pages; internal URLs use `BASE_URL`.

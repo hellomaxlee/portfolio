@@ -92,7 +92,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   .stat {
     font-family: var(--font-display);
     font-size: 1.75rem;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.1;
     letter-spacing: -0.02em;
     color: var(--line);
@@ -203,6 +203,24 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   @media (prefers-reduced-motion: reduce) {
     .card {
       transition: none;
+    }
+  }
+
+  /* Arriving from the map: one ring leaves the card's edge, then it rests. */
+  @media (prefers-reduced-motion: no-preference) {
+    .card:target {
+      animation: card-arrive 0.9s ease-out 0.6s 2;
+    }
+  }
+
+  @keyframes card-arrive {
+    from {
+      outline: 2px solid var(--line);
+      outline-offset: 0;
+    }
+    to {
+      outline: 2px solid transparent;
+      outline-offset: 0.75rem;
     }
   }
 </style>
