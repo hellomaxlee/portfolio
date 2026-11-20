@@ -39,6 +39,10 @@
 - Vertical rhythm is tight (Max, 2026-11-19: too much white space). The gap between sections is
   `--space-8`, 40 px on a phone rising to 72 px on a wide screen; spacing inside sections is
   unchanged.
+- On wide screens (56rem and up) the side-quest entries alternate either side of the line: odd
+  entries to the right, even entries to the left with right-aligned text, each station on the
+  track nearest its entry (Max, 2026-11-19: the column under the heading was empty). It is built
+  with CSS subgrid; browsers without subgrid, and phones, keep the single column.
 - Only cards whose number says something carry one. StationScope is the featured card.
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, Max's own apps, his cooking account on

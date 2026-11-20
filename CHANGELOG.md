@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-19
+- Side quests on wide screens: entries now alternate left and right of the line, filling the empty
+  column under the heading and shortening the section. Phones keep the single column.
+
+## 2026-11-19
 - Tighter vertical spacing: less space between sections, under the hero, and in the footer.
 
 ## 2026-11-18

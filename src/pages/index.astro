@@ -99,7 +99,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       class="wrap section two"
       id="quests"
       aria-labelledby="quests-h"
-      style="--line:var(--line-quest)"
+      style={`--line:var(--line-quest);--rows:${quests.length + 1}`}
     >
       <div class="q-head">
         <h2 id="quests-h"><span class="swatch"></span>Side quests</h2>
@@ -124,7 +124,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <ol class="quests">
         {
           quests.map((quest, i) => (
-            <li id={quest.id}>
+            <li id={quest.id} style={`--row:${i + 1}`}>
               {i === 0 && (
                 <svg class="q-jog q-lead" viewBox="0 0 1 2" aria-hidden="true">
                   <path d={jog} />
@@ -147,6 +147,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           ))
         }
       </ol>
+      {
+        quests.map((_, i) => (
+          <span
+            class:list={['q-seg', { 'q-seg-end': i === quests.length - 1 }]}
+            style={`--row:${i + 1}`}
+            aria-hidden="true"
+          >
+            {i < quests.length - 1 && (
+              <svg class="q-jog" viewBox="0 0 1 2">
+                <path d={jog} />
+              </svg>
+            )}
+          </span>
+        ))
+      }
     </section>
   </main>
 
@@ -331,12 +346,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     The quest line from the map continues down the list. It runs on two tracks and changes
     track between entries, so each station sits on the track its entry starts on.
   */
-  .quests {
+  #quests {
     --near: 0.375rem;
     --shift: var(--space-3);
     --q-stroke: 4px;
     --clear: var(--space-4);
+  }
+
+  .quests {
     padding-top: calc(2 * var(--shift));
+  }
+
+  .q-seg {
+    display: none;
   }
 
   @media (max-width: 56rem) {
@@ -346,7 +368,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   @media (min-width: 40rem) {
-    .quests {
+    #quests {
       --shift: var(--space-5);
       --clear: var(--space-5);
     }
@@ -565,6 +587,109 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   .q-lead {
     bottom: 100%;
     stroke-linecap: round;
+  }
+
+  /*
+    Wide screens: the entries alternate either side of the line, so the list fills the column
+    under the heading. Each station starts a row; an entry spans its row and the next, and a
+    segment per row draws the line and its track change.
+  */
+  @media (min-width: 56rem) {
+    @supports (grid-template-rows: subgrid) {
+      #quests {
+        row-gap: 0;
+      }
+
+      .q-head {
+        grid-column: 1;
+        grid-row: 1;
+        margin-bottom: var(--space-6);
+      }
+
+      .quests {
+        grid-column: 1 / -1;
+        grid-row: 1 / span var(--rows);
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-template-rows: subgrid;
+        margin-top: 0;
+        padding-top: 0;
+      }
+
+      .quests li {
+        grid-column: 2;
+        grid-row: var(--row) / span 2;
+      }
+
+      .quests li:nth-child(even) {
+        grid-column: 1;
+        margin-right: calc(-1 * (var(--space-7) + var(--near) - var(--clear)));
+        padding-left: 0;
+        text-align: right;
+      }
+
+      .quests li:nth-child(even)::before {
+        left: auto;
+        right: calc(-1 * var(--clear) - 0.375rem);
+      }
+
+      .quests li:nth-child(even) .q-fact {
+        justify-content: flex-end;
+      }
+
+      .quests li:nth-child(even) .q-text {
+        margin-left: auto;
+      }
+
+      .quests li::after,
+      .quests li > .q-jog:not(.q-lead) {
+        display: none;
+      }
+
+      .q-seg {
+        --track: var(--near);
+        display: block;
+        position: relative;
+        grid-column: 2;
+        grid-row: var(--row);
+        align-self: stretch;
+        justify-self: start;
+        width: calc(var(--near) + var(--shift));
+        min-height: calc(2 * var(--shift) + var(--space-5));
+        pointer-events: none;
+      }
+
+      .q-seg:nth-of-type(odd) {
+        --track: calc(var(--near) + var(--shift));
+      }
+
+      .q-seg::before {
+        content: '';
+        position: absolute;
+        left: calc(var(--track) - var(--q-stroke) / 2);
+        top: 0;
+        bottom: calc(2 * var(--shift) - 1px);
+        width: var(--q-stroke);
+        background: var(--line);
+      }
+
+      .q-seg:nth-of-type(odd) > .q-jog {
+        scale: -1 1;
+      }
+
+      .q-seg-end {
+        grid-row: var(--row) / span 2;
+      }
+
+      .q-seg-end::before {
+        left: calc(var(--track) - 0.5rem);
+        bottom: var(--space-2);
+        width: 1rem;
+        background:
+          linear-gradient(var(--line) 0 0) center / var(--q-stroke) 100% no-repeat,
+          linear-gradient(var(--line) 0 0) bottom / 100% var(--q-stroke) no-repeat;
+      }
+    }
   }
 
   .quests h3 {
