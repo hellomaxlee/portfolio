@@ -25,8 +25,6 @@ interface Station {
   hub?: boolean;
   /** Extra `st-` slugs that should light this station from the page. */
   also?: string[];
-  /** The stop on the dashed track; its href leaves the site. */
-  spur?: boolean;
 }
 
 interface Placement {
@@ -54,8 +52,6 @@ interface Layout {
   top: number;
   type: TypeScale;
   routes: Record<LineId, Node[]>;
-  /** A short dashed fork of the quest line, from where it starts to a stop of its own. */
-  spur: Node[];
   places: Record<string, Placement>;
   legend: { at: Pt; direction: 'column' | 'row'; step: number[] };
 }
@@ -75,13 +71,6 @@ const STATIONS: Station[] = [
     href: '#european-excursions',
     lines: ['work', 'quest'],
     note: '27 cities, 12 countries',
-  },
-  {
-    id: 'cooking',
-    name: 'Cooking',
-    href: 'https://www.instagram.com/byemaxlee/',
-    lines: ['quest'],
-    spur: true,
   },
   { id: 'treasury', name: 'U.S. Treasury', href: '#about', lines: ['work'] },
   { id: 'holland', name: 'Century Across Holland', href: '#holland', lines: ['quest'] },
@@ -113,8 +102,6 @@ const STROKE = 5.5;
 const PITCH = 8;
 const DOT_R = 3.5;
 const RING = 1.6;
-const SPUR_STROKE = 2.5;
-const SPUR_DOT = 2 * DOT_R + RING - 2;
 /** Interchange capsule: overall thickness across the lanes it joins. */
 const CAPSULE_W = 2 * DOT_R + RING;
 /** The New York hub is drawn this much heavier than the other interchanges. */
@@ -224,17 +211,10 @@ const wide: Layout = {
       [664, 198],
     ],
   },
-  spur: [
-    [84, 180],
-    [120, 180, 14],
-    [220, 280, 14],
-    [262, 280],
-  ],
   places: {
     hamilton: { at: [40, 250], side: 'right' },
     woods: { at: [84, 180], side: 'below', wrap: ['Summer in', 'the Woods'] },
     stockholm: { at: [124, 116], to: [124, 124], side: 'above' },
-    cooking: { at: [262, 280], side: 'right' },
     treasury: { at: [294, 116], side: 'above' },
     holland: { at: [226, 176], side: 'below', wrap: ['Century Across', 'Holland'] },
     amtrak: { at: [340, 176], side: 'below' },
@@ -281,15 +261,10 @@ const tall: Layout = {
       [117, 500],
     ],
   },
-  spur: [
-    [48, 46],
-    [48, 150],
-  ],
   places: {
     hamilton: { at: [101, 20], side: 'right' },
     woods: { at: [48, 46], side: 'above', wrap: ['Summer in', 'the Woods'] },
     stockholm: { at: [101, 86], to: [109, 86], side: 'right', shift: -3 },
-    cooking: { at: [48, 150], side: 'below' },
     holland: { at: [150, 158], side: 'right' },
     treasury: { at: [101, 214], side: 'left' },
     amtrak: { at: [150, 200], side: 'right' },
@@ -319,8 +294,6 @@ function timeAtProgress(p: number): number {
 
 const WORK_START = 80;
 const ARRIVAL = 1600; // every line reaches New York at this moment
-
-const SPUR_DELAY = 500; // the spur fades in this long after Quest sets out
 
 const slug = (href: string) => href.replace('#', '');
 
@@ -353,7 +326,7 @@ function render(layout: Layout) {
     const b = place.to ?? place.at;
     const cx = (a[0] + b[0]) / 2;
     const cy = (a[1] + b[1]) / 2;
-    const half = (station.spur ? SPUR_DOT : CAPSULE_W) / 2 + (station.hub ? HUB_EXTRA / 2 : 0);
+    const half = CAPSULE_W / 2 + (station.hub ? HUB_EXTRA / 2 : 0);
     const sym = {
       x0: Math.min(a[0], b[0]) - half,
       x1: Math.max(a[0], b[0]) + half,
@@ -393,28 +366,21 @@ function render(layout: Layout) {
       y1: Math.max(sym.y1, baseline + bottom) + 6,
     };
 
-    const at = station.spur
-      ? questStart + SPUR_DELAY + 200
-      : Math.min(
-          ...station.lines.map((id) => {
-            const p = progressAt(layout.routes[id], id === station.lines[0] ? a : b);
-            return start[id] + timeAtProgress(p) * (ARRIVAL - start[id]);
-          }),
-        );
+    const at = Math.min(
+      ...station.lines.map((id) => {
+        const p = progressAt(layout.routes[id], id === station.lines[0] ? a : b);
+        return start[id] + timeAtProgress(p) * (ARRIVAL - start[id]);
+      }),
+    );
 
     return {
       ...station,
-      label: station.spur
-        ? `${station.name} on Instagram`
-        : station.note
-          ? `${station.name}: ${station.note}`
-          : station.name,
-      rel: station.spur ? 'noopener' : undefined,
+      label: station.note ? `${station.name}: ${station.note}` : station.name,
       classes: [
         'nm-station',
-        ...[station.spur ? station.id : slug(station.href), ...(station.also ?? [])].map((s) => `st-${s}`),
+        ...[slug(station.href), ...(station.also ?? [])].map((s) => `st-${s}`),
         ...station.lines.map((id) => `nm-on-${id}`),
-        { 'nm-hub': station.hub, 'nm-end': station.spur },
+        { 'nm-hub': station.hub },
       ],
       // 1 when any of this station's lines is the one in focus.
       mine: `max(${station.lines.map((id) => `var(--nm-${id}, 0)`).join(', ')})`,
@@ -425,21 +391,18 @@ function render(layout: Layout) {
     };
   });
 
-  const spur = { d: toPath(layout.spur), delay: Math.round(questStart + SPUR_DELAY) };
-
-  return { ...layout, lines, spur, legend, stations };
+  return { ...layout, lines, legend, stations };
 }
 
 const diagrams = [render(wide), render(tall)];
 
 const stationNames = (id: LineId) =>
-  STATIONS.filter((s) => s.lines.includes(id) && !s.spur)
+  STATIONS.filter((s) => s.lines.includes(id))
     .map((s) => s.name)
     .join(', ');
 const description =
   `A transit-style diagram of three lines that all end at New York. ` +
-  LINES.map((l) => `${l.label}: ${stationNames(l.id)}.`).join(' ') +
-  ` A short dashed fork leaves the side quests line where it starts and ends at its own stop, Cooking, which links to Instagram.`;
+  LINES.map((l) => `${l.label}: ${stationNames(l.id)}.`).join(' ');
 ---
 
 <div class="nm">
@@ -456,12 +419,6 @@ const description =
         style={`--nm-name:${map.type.name}px;--nm-note:${map.type.note}px;--nm-hub:${map.type.hub}px`}
       >
         <g aria-hidden="true">
-          <path
-            class="nm-line nm-spur"
-            d={map.spur.d}
-            stroke="var(--map-quest)"
-            style={`--nm-mine:var(--nm-quest, 0);--nm-at:${map.spur.delay}ms`}
-          />
           {map.lines.map((line) => (
             <path
               class="nm-line"
@@ -489,7 +446,7 @@ const description =
 
         <g>
           {map.stations.map((s) => (
-            <a class:list={s.classes} href={s.href} rel={s.rel} aria-label={s.label} style={`--nm-mine:${s.mine};--nm-at:${s.at}ms`}>
+            <a class:list={s.classes} href={s.href} aria-label={s.label} style={`--nm-mine:${s.mine};--nm-at:${s.at}ms`}>
               <rect class="nm-hit" x={s.hit.x} y={s.hit.y} width={s.hit.width} height={s.hit.height} rx="8" />
               <g class="nm-symbol nm-settle">
                 <path class="nm-ring" d={s.trace} />
@@ -517,8 +474,6 @@ const description =
     ring: RING,
     capsule: CAPSULE_W,
     hubExtra: HUB_EXTRA,
-    spurStroke: SPUR_STROKE,
-    spurDot: SPUR_DOT,
   }}
 >
   .nm {
@@ -611,12 +566,6 @@ const description =
     stroke-width: calc(var(--stroke) * 1px);
   }
 
-  /* The spur is the quest line again, thinner and dashed. */
-  .nm-spur {
-    stroke-width: calc(var(--spurStroke) * 1px);
-    stroke-dasharray: 5 5;
-  }
-
   .nm-key,
   .nm-station {
     --nm-recede: 0.28;
@@ -678,15 +627,6 @@ const description =
     --hub: var(--hubExtra);
   }
 
-  .nm-end {
-    --capsule: var(--spurDot);
-  }
-
-  .nm-end .nm-name {
-    fill: var(--on-sky-muted);
-    font-size: var(--nm-note);
-  }
-
   /* Type */
 
   .nm-name {
@@ -727,11 +667,6 @@ const description =
     .nm-line {
       stroke-dasharray: 1 1;
       animation: nm-draw var(--nm-dur) cubic-bezier(0.4, 0, 0.3, 1) var(--nm-at) both;
-    }
-
-    .nm-spur {
-      stroke-dasharray: 5 5;
-      animation: nm-fade 480ms ease-out var(--nm-at) both;
     }
 
     .nm-settle {

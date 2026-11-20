@@ -2,6 +2,9 @@
 
 Newest first. One dated entry per push.
 
+## 2026-11-20
+- Removed the cooking fork and its Instagram link from the hero map and the side quests list.
+
 ## 2026-11-19
 - A Summer in the Woods: the summer is now given as 8 weeks.
 
