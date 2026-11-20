@@ -3,6 +3,10 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-20
+- The ground colour of the hero, footer, and featured card now changes on each page load, from
+  six calm colours, each paired with the line palettes that suit it.
+
+## 2026-11-20
 - Line colours: 13 checked sets of three tones, dealt to the lines in any order, for 79
   combinations in place of four palettes.
 

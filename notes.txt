@@ -18,7 +18,7 @@
 
 ## Design decisions
 - A quiet editorial page. Newsreader for headings and numerals, Instrument Sans for text.
-- One deep pine-green ground carries the hero, the footer, and the featured card. A three-line network map (work, things built,
+- One calm dark ground (pine green by default) carries the hero, the footer, and the featured card. A three-line network map (work, things built,
   side quests) is the single themed element, and the quest line continues down the side-quest list.
 - Colour: nature tones (Max, 2026-11-17: the indigo and neon set read as a default template).
   Wheat, terracotta, and lake blue for the three lines on pine green; cream paper and bark ink.
@@ -66,5 +66,22 @@
   stay apart (CIELAB distance 22 or more) under simulated deuteranopia, protanopia, and
   tritanopia. Most sets carry a purple because that is what stays distinct from a warm tone and a
   blue-green under red-green colour blindness. A new set must pass the same checks.
+- The ground colour changes on each page load too (Max, 2026-11-20: calm colours only, matched
+  to the line colours). The same script picks one of six grounds, never the one shown last, then
+  a tone set allowed on it. The grounds are pine #1f3d31 (the default), fjord #1d3a47, dusk
+  #2a3750, plum #45313f, bark #453329, and slate #30383f. All five new ones were built at pine's
+  luminance, so `--on-sky` text is 10.4:1 or better on each and every tone keeps the contrast it
+  has on pine (lowest 4.9:1). Each ground has its own muted text at 7:1. The page colours below
+  the hero stay fixed in both themes.
+- Pairing rule: a tone within 30 degrees of the ground's hue (OKLCH) is allowed only if it is
+  7.4:1 or better on it, the margin mint already has on pine, and a set may hold one such tone.
+  Slate is exempt as near neutral. Allowed sets: pine and slate take all 14; fjord takes all but
+  the default and the two lake sets; dusk takes the default, apricot lavender mint, butter rose
+  lavender, wheat lavender mint, and terracotta lavender ice; plum takes all but the three rose
+  sets; bark takes butter rose lavender, rose sand periwinkle, wheat lavender mint, wheat seafoam
+  iris, peach lake iris, straw rose periwinkle, cream aqua iris, and butter lake iris. That is 63
+  ground and set pairs and 358 combinations counting line order. Wine and moss grounds were
+  tried and rejected as too loud and too close to pine. The browser bar colour follows the
+  ground. The favicon stays pine and wheat.
 - No other client JavaScript. All motion is CSS and stops under `prefers-reduced-motion`.
 - The site is served from `/portfolio` on GitHub Pages; internal URLs use `BASE_URL`.

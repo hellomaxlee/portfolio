@@ -77,8 +77,8 @@ Rules that outrank any design idea or feature request.
   every meaningful image, full keyboard navigation, `prefers-reduced-motion` respected.
 - **Light and dark.** Both themes follow `prefers-color-scheme` and both pass the contrast rule.
 - **Fast.** The page ships no client JavaScript, with one exception Max approved (2026-11-20): a
-  short inline script in `Base.astro` that picks the line palette for each page load. Nothing
-  else may be added to it. Images are sized and compressed for their slot.
+  short inline script in `Base.astro` that picks the ground colour and line palette for each
+  page load. Nothing else may be added to it. Images are sized and compressed for their slot.
   Fonts are self-hosted; no third-party font request.
 - **Motion is optional.** Every animation is CSS, sits behind `prefers-reduced-motion`, and leaves
   the page complete and readable when it does not run.
@@ -86,7 +86,8 @@ Rules that outrank any design idea or feature request.
   is cookieless and Max asks for it.
 - **Restraint.** Two type families, one colour per line, taken from the checked
   tone sets listed in `notes.txt` (the default is work wheat, build terracotta, quest lake blue),
-  one pine-green ground for the hero, footer, and featured card, one layout width. A new
+  one calm dark ground for the hero, footer, and featured card (pine green by default, or one of
+  the measured grounds in `notes.txt`), one layout width. A new
   colour needs a job; a new visual element needs a reason a visitor would notice.
 
 ## Working Rules
