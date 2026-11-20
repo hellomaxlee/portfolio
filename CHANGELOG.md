@@ -3,6 +3,9 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-19
+- A Summer in the Woods: the summer is now given as 8 weeks.
+
+## 2026-11-19
 - New first side quest, A Summer in the Woods, with its own station on the hero map. The cooking
   fork now leaves the line there. Wide screens: entries are split left and right for even columns.
 
