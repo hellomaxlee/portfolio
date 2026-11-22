@@ -21,8 +21,9 @@ goes in either: no unpublished projects, no personal commentary, no details that
 2. Software projects are cards and travel side quests are a short list, each led by one number
    and one or two plain sentences. The hero network map links to every one of them.
 3. The site is self-contained: the only outside links are LinkedIn, GitHub, Max's own live
-   apps, the organisations named in the work paragraph, and the official page for a named thing
-   a stranger may not know (the Amtrak rail pass, the Smithsonian museums, Jet Lag).
+   apps, the organisations named in the work paragraph, and a context link for a named thing
+   a stranger may not know: its official page, or Wikipedia when there is no single official
+   page (the Amtrak rail pass, the Smithsonian museums, Jet Lag, Rhode Island's wildlife refuges).
 4. The site builds from a clean clone with one command and deploys on push to `main`.
 5. Lighthouse scores 95 or higher on performance, accessibility, best practices, and SEO, on
    mobile, for every page.

@@ -56,7 +56,9 @@
   the work paragraph, and context links (Max, 2026-11-21): a named thing a stranger may not know
   links to its official page, inline on the phrase. Currently the Amtrak rail pass
   (amtrak.com/usa-rail-pass), the Smithsonian museums (si.edu/museums), Jet Lag
-  (nebula.tv/jetlag), and the Treasury (home.treasury.gov). amtrak.com and si.edu refuse
+  (nebula.tv/jetlag), and the Treasury (home.treasury.gov). Rhode Island's national wildlife refuges
+  link to the Wikipedia article on the refuge complex, because the Fish and Wildlife Service has
+  a page per refuge but none found for the complex as a whole. amtrak.com and si.edu refuse
   scripted requests with a 403, so those two were confirmed by web search, not by fetching.
 - The three line colours change on each page load (Max, 2026-11-20). A short inline script in the
   document head assigns the lines their colours before first paint and never repeats the last
