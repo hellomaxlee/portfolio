@@ -2,6 +2,10 @@
 
 Newest first. One dated entry per push.
 
+## 2026-11-21
+- Context links on phrases a visitor may not know: the Amtrak rail pass, the Smithsonian museums,
+  Jet Lag, and the Treasury each link to their official page.
+
 ## 2026-11-20
 - Typeface: IBM Plex Sans throughout, replacing Newsreader and Instrument Sans. Heading weights
   and tracking retuned.
