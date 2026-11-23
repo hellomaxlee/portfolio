@@ -641,7 +641,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     text-wrap: pretty;
   }
 
-  .prose a {
+  .prose a,
+  .q-text :global(a) {
     color: var(--line);
   }
 

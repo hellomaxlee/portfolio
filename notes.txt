@@ -25,8 +25,8 @@
   side quests) is the single themed element, and the quest line continues down the side-quest list.
 - Colour: nature tones (Max, 2026-11-17: the indigo and neon set read as a default template).
   Wheat, terracotta, and lake blue for the three lines on pine green; cream paper and bark ink.
-  All text pairs measure 4.6:1 or better. The links in the work paragraph take the work line's
-  colour and keep their underline (Max, 2026-11-22). For that the default wheat on paper is the
+  All text pairs measure 4.6:1 or better. The links in the work paragraph and in the side-quest text
+  take their line's colour and keep their underline (Max, 2026-11-22). For that the default wheat on paper is the
   wheat ink #83692c (4.6:1 on cream), the same value the rotating palettes use, replacing
   #c9962b (2.4:1).
 - The side-quest line runs on two tracks and changes track between entries, using the hero map's

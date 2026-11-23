@@ -3,6 +3,9 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-22
+- Links in the side-quest text take the quest line's colour, as the work links do.
+
+## 2026-11-22
 - Links in the work paragraph take the work line's colour. The default wheat on paper is darker so
   it passes text contrast.
 - The New York station on the hero map now names Brattle alongside StationScope and Hide and Seek.
