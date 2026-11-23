@@ -3,6 +3,12 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-22
+- Fixed a missing space before "Hamilton College" in the work paragraph.
+- The side-quest line now starts level with its section heading on wide screens, not above it.
+- Presidential Word Vectors: the card now says how the closest words are ranked (cosine
+  similarity) and that the interpretation comes from GPT-3.5 Turbo through OpenAI's API.
+
+## 2026-11-22
 - The work paragraph now says both federal roles were during the Biden presidency.
 
 ## 2026-11-21

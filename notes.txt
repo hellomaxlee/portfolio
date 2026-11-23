@@ -29,7 +29,9 @@
   decorative and its ink ring carries the mark.
 - The side-quest line runs on two tracks and changes track between entries, using the hero map's
   45 degree bends with rounded corners. The text keeps one left edge; only the line and stations
-  move. The line opens with a lead-in bend and closes with a terminus bar. An entry reached from
+  move. The line opens with a lead-in bend and closes with a terminus bar. The lead-in starts level
+  with the section heading and never rises above the section (Max, 2026-11-22), so on wide screens
+  the first entry sits one bend below the heading. An entry reached from
   the map (`:target`) fills its station in lake blue.
 - Vertical rhythm is tight (Max, 2026-11-19: too much white space). The gap between sections is
   `--space-8`, 40 px on a phone rising to 72 px on a wide screen; spacing inside sections is
