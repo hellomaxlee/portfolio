@@ -88,7 +88,7 @@ Rules that outrank any design idea or feature request.
   is cookieless and Max asks for it.
 - **Restraint.** One type family, one colour per line, taken from the checked
   tone sets listed in `notes.txt` (the default is work wheat, build terracotta, quest lake blue),
-  one calm dark ground for the hero, footer, and featured card (pine green by default, or one of
+  one calm dark ground for the hero and footer (pine green by default, or one of
   the measured grounds in `notes.txt`), one layout width. A new
   colour needs a job; a new visual element needs a reason a visitor would notice.
 

@@ -1,7 +1,7 @@
 /*
   Design tokens. Roles before values.
   Base: paper, ink, muted, rule, in warm cream and bark tones.
-  Ground (--sky): one calm dark colour for the hero, the footer, and the featured card. Pine
+  Ground (--sky): one calm dark colour for the hero and the footer. Pine
   green is the default; the script may swap in one of the --ground-* colours.
   Lines: work, build, quest. Each palette gives a line two values: --map-* for the pine ground
   (and the dark theme), --paper-* for the cream page. --line-* picks between them by theme.
