@@ -21,7 +21,7 @@
   read as professional but not as him; he wanted something cleaner, square, and modern, academic
   without being bookish). Headings are weight 500 with slightly tight tracking, entry titles 600,
   and the large numbers weight 300, so the hierarchy holds without a second family.
-- One calm dark ground (pine green by default) carries the hero, the footer, and the featured card. A three-line network map (work, things built,
+- One calm dark ground (pine green by default) carries the hero and the footer. A three-line network map (work, things built,
   side quests) is the single themed element, and the quest line continues down the side-quest list.
 - Colour: nature tones (Max, 2026-11-17: the indigo and neon set read as a default template).
   Wheat, terracotta, and lake blue for the three lines on pine green; cream paper and bark ink.
@@ -54,8 +54,8 @@
   `prefers-reduced-motion`.
 - On the wide map the Summer in the Woods stop is raised and Hamilton College lowered so their
   labels do not crowd each other (Max, 2026-11-20).
-- Only cards whose number says something carry one. No card is featured (Max, 2026-11-22: the dark StationScope card was an eyesore); the `featured`
-  flag and its style remain for later use.
+- Only cards whose number says something carry one. StationScope is the featured card: a plain card whose outline runs through the three line
+  colours (Max, 2026-11-22: the dark ground and glow were an eyesore).
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, Max's own apps, the organisations named in
   the work paragraph, and context links (Max, 2026-11-21): a named thing a stranger may not know

@@ -3,7 +3,8 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-22
-- StationScope is a plain card like the others; the dark featured treatment is gone.
+- StationScope is a plain card with an outline in the three line colours; the dark ground, glow,
+  and link pill are gone.
 
 ## 2026-11-22
 - Links in the side-quest text take the quest line's colour, as the work links do.

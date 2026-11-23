@@ -4,6 +4,7 @@ kind: built
 stat: "7"
 statLabel: cities mapped
 order: 1
+featured: true
 links:
   - label: stationscope.app
     href: https://stationscope.app
