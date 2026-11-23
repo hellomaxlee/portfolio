@@ -34,6 +34,8 @@ interface Placement {
   side: Side;
   /** Name broken over lines, where the full name is too long for its slot. */
   wrap?: string[];
+  /** Note broken over lines, where one line would run past the drawing. */
+  noteWrap?: string[];
   /** Nudge for side labels, so a label block can sit clear of a diagonal. */
   shift?: number;
 }
@@ -90,7 +92,7 @@ const STATIONS: Station[] = [
     href: '#stationscope',
     lines: ['work', 'quest', 'build'],
     hub: true,
-    note: 'StationScope, Hide and Seek',
+    note: 'Brattle, StationScope, Hide and Seek',
     also: ['hide-and-seek'],
   },
 ];
@@ -221,7 +223,12 @@ const wide: Layout = {
     washington: { at: [464, 116], to: [464, 124], side: 'above' },
     skipgram: { at: [160, 340], side: 'below', wrap: ['Presidential', 'Word Vectors'] },
     dashboard: { at: [330, 340], side: 'below' },
-    'new-york': { at: [664, 182], to: [664, 198], side: 'above' },
+    'new-york': {
+      at: [664, 182],
+      to: [664, 198],
+      side: 'above',
+      noteWrap: ['Brattle, StationScope,', 'Hide and Seek'],
+    },
   },
   legend: { at: [630, 300], direction: 'column', step: [0, 22, 44] },
 };
@@ -338,11 +345,13 @@ function render(layout: Layout) {
     const nameSize = station.hub ? type.hub : type.name;
     const rows = [
       ...(place.wrap ?? [station.name]).map((text) => ({ text, size: nameSize, isNote: false })),
-      ...(station.note ? [{ text: station.note, size: type.note, isNote: true }] : []),
+      ...(station.note
+        ? (place.noteWrap ?? [station.note]).map((text) => ({ text, size: type.note, isNote: true }))
+        : []),
     ];
     let y = 0;
     const laid = rows.map((row, i) => {
-      if (i > 0) y += row.isNote ? row.size * 1.4 : row.size * 1.2;
+      if (i > 0) y += row.isNote && !rows[i - 1].isNote ? row.size * 1.4 : row.size * 1.2;
       return { ...row, y };
     });
     const capTop = -0.72 * rows[0].size;

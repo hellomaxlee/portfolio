@@ -2,7 +2,7 @@
 title: A Summer in the Woods
 kind: quest
 stat: "8"
-statLabel: laps of the same 8 mile trail
+statLabel: laps of the same 8-mile trail
 order: 0
 ---
 I spent an 8-week summer working at [Rhode Island's national wildlife refuges](https://en.wikipedia.org/wiki/Rhode_Island_National_Wildlife_Refuge_Complex) and living alone in a house in the woods by a pond, without a car. I ran the same trail every week, kayaked, read six books, and cooked a great deal of oatmeal.
