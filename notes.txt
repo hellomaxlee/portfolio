@@ -11,8 +11,8 @@
   number was left out.
 - Only public projects are shown.
 - Map interchanges are true by place: Stockholm (semester abroad, European Excursions),
-  Washington (a summer at the CFPB, the Smithsonian visits), New York (work, StationScope,
-  Hide and Seek). The map carries no dates.
+  Washington (a summer at the CFPB, the Smithsonian visits), New York (Brattle, StationScope,
+  Hide and Seek; all three are named on the map, Max, 2026-11-22). The map carries no dates.
 - The Life Dashboard strip is rendered from that project's sample fixture, not from real data.
 - The portrait is Max's GitHub profile picture, copied to `public/max.jpg`.
 
@@ -25,8 +25,10 @@
   side quests) is the single themed element, and the quest line continues down the side-quest list.
 - Colour: nature tones (Max, 2026-11-17: the indigo and neon set read as a default template).
   Wheat, terracotta, and lake blue for the three lines on pine green; cream paper and bark ink.
-  All text pairs measure 4.8:1 or better. The wheat section swatch on paper is 2.4:1; it is
-  decorative and its ink ring carries the mark.
+  All text pairs measure 4.6:1 or better. The links in the work paragraph take the work line's
+  colour and keep their underline (Max, 2026-11-22). For that the default wheat on paper is the
+  wheat ink #83692c (4.6:1 on cream), the same value the rotating palettes use, replacing
+  #c9962b (2.4:1).
 - The side-quest line runs on two tracks and changes track between entries, using the hero map's
   45 degree bends with rounded corners. The text keeps one left edge; only the line and stations
   move. The line opens with a lead-in bend and closes with a terminus bar. The lead-in starts level

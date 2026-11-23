@@ -3,6 +3,13 @@
 Newest first. One dated entry per push.
 
 ## 2026-11-22
+- Links in the work paragraph take the work line's colour. The default wheat on paper is darker so
+  it passes text contrast.
+- The New York station on the hero map now names Brattle alongside StationScope and Hide and Seek.
+- Grammar pass on the copy: the StationScope card says what it recommends, and three side-quest
+  phrases are corrected. The Word Vectors card no longer names the model behind OpenAI's API.
+
+## 2026-11-22
 - Fixed a missing space before "Hamilton College" in the work paragraph.
 - The side-quest line now starts level with its section heading on wide screens, not above it.
 - Presidential Word Vectors: the card now says how the closest words are ranked (cosine
