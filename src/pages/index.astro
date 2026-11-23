@@ -88,8 +88,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           Before that I spent one summer at the <a href="https://www.consumerfinance.gov/" rel="noopener">Consumer Financial Protection Bureau</a>,
           through a <a href="https://www.princeton.edu/" rel="noopener">Princeton University</a> technology
           policy fellowship, and another at the <a href="https://home.treasury.gov/" rel="noopener">Treasury</a>. Both federal roles were during
-          the Biden presidency. I studied economics, math, and statistics at
-          <a href="https://www.hamilton.edu/" rel="noopener">Hamilton College</a>.
+          the Biden presidency. I studied economics, math, and
+          statistics at <a href="https://www.hamilton.edu/" rel="noopener">Hamilton College</a>.
         </p>
       </div>
     </section>
@@ -152,7 +152,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             class:list={[
               'q-seg',
               `q-on-${sides[i]}`,
-              { 'q-seg-end': i === quests.length - 1, 'q-straight': sides[i] === sides[i + 1] },
+              { 'q-seg-first': i === 0, 'q-seg-end': i === quests.length - 1, 'q-straight': sides[i] === sides[i + 1] },
             ]}
             style={`--row:${i + 1}`}
             aria-hidden="true"
@@ -378,13 +378,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     }
   }
 
-  /* Beside the heading, the lead-in rises above the list so the first title stays level with it. */
-  @media (min-width: 56rem) {
-    .quests {
-      margin-top: calc(-2 * var(--shift));
-    }
-  }
-
   .quests li {
     --track: var(--near);
     position: relative;
@@ -523,6 +516,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         --track: calc(var(--near) + var(--shift));
         grid-column: 2;
         grid-row: var(--row) / span var(--span);
+      }
+
+      /* The lead-in starts level with the heading, so the line never rises above its section. */
+      .quests li:first-child {
+        margin-top: calc(2 * var(--shift));
+      }
+
+      .q-seg.q-seg-first::before {
+        top: calc(2 * var(--shift));
       }
 
       .quests li.q-left {
