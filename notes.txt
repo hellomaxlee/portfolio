@@ -54,7 +54,8 @@
   `prefers-reduced-motion`.
 - On the wide map the Summer in the Woods stop is raised and Hamilton College lowered so their
   labels do not crowd each other (Max, 2026-11-20).
-- Only cards whose number says something carry one. StationScope is the featured card.
+- Only cards whose number says something carry one. No card is featured (Max, 2026-11-22: the dark StationScope card was an eyesore); the `featured`
+  flag and its style remain for later use.
 - Career appears as two short paragraphs, not a list. The employer is named once.
 - Self-contained: outside links are LinkedIn, GitHub, Max's own apps, the organisations named in
   the work paragraph, and context links (Max, 2026-11-21): a named thing a stranger may not know

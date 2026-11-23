@@ -7,6 +7,5 @@ order: 1
 links:
   - label: stationscope.app
     href: https://stationscope.app
-featured: true
 ---
 A web app for picking a neighborhood to rent in by its transit. It recommends a neighborhood after you enter an address you go to often, such as an office, and answer a few questions. It maps subway and commuter rail, along with buses, ferries, and other local transit, in New York, Chicago, D.C., San Francisco, Boston, Philadelphia, and Los Angeles.
