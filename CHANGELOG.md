@@ -2,6 +2,9 @@
 
 Newest first. One dated entry per push.
 
+## 2026-11-22
+- The work paragraph now says both federal roles were during the Biden presidency.
+
 ## 2026-11-21
 - Rhode Island's national wildlife refuges link to the Wikipedia article on the refuge complex.
 
